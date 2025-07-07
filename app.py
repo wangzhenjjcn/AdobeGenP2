@@ -17,15 +17,27 @@ product_year_regex = re.compile(
     re.IGNORECASE
 )
 
+# 需要排除的链接
 exclude_links = {
     "https://www.cybermania.ws/apps/",
+}
+
+# 强制包含的链接
+force_include_links = {
+    "https://www.cybermania.ws/cybermania/disable-adobe-genuine-software-integrity-service/",
+    "https://www.cybermania.ws/apps/ags-disabler-disable-adobe-genuine-software/",
     "https://www.cybermania.ws/apps/adobe-genp/"
 }
+
 link_prefix = "https://www.cybermania.ws/apps"
 base_url = "https://www.cybermania.ws"
 search_url = f"{base_url}/?s=adobe"
 
 def is_valid_adobe_link(href):
+    # 强制包含的链接直接返回True
+    if href in force_include_links:
+        return True
+    
     # 必须以/apps/开头，不能包含comment-page、#，不能是排除链接
     if not href.startswith(link_prefix):
         return False
@@ -85,9 +97,21 @@ def extract_folder_name(url):
     """从URL中提取文件夹名"""
     # 移除末尾的斜杠
     url = url.rstrip('/')
+    
+    # 处理强制包含的链接
+    if url in force_include_links:
+        if url == "https://www.cybermania.ws/cybermania/disable-adobe-genuine-software-integrity-service/":
+            return "disable-adobe-genuine-software-integrity-service"
+        elif url == "https://www.cybermania.ws/apps/ags-disabler-disable-adobe-genuine-software/":
+            return "ags-disabler-disable-adobe-genuine-software"
+        elif url == "https://www.cybermania.ws/apps/adobe-genp/":
+            return "adobe-genp"
+    
     # 获取apps后面的部分
     if '/apps/' in url:
         return url.split('/apps/')[-1]
+    elif '/cybermania/' in url:
+        return url.split('/cybermania/')[-1]
     return None
 
 def find_download_links(soup):
@@ -719,6 +743,10 @@ def main():
     all_links = set()
     page = 1
     max_pages = 50  # 设置最大页数限制，防止无限循环
+    
+    # 首先添加强制包含的链接
+    all_links.update(force_include_links)
+    print(f"已添加 {len(force_include_links)} 个强制包含的链接")
     
     while page <= max_pages:
         url = get_next_page_url(page)
