@@ -18,11 +18,17 @@
 
 ## 文件结构
 ├── app.py # 主脚本
+
 ├── requirements.txt # 依赖包
+
 ├── .github/workflows/ # GitHub Action配置
+
 ├── data/ # 数据文件
+
 │ └── data.txt # 抓取的链接
+
 ├── DownloadLinks/ # 下载页面文件夹
+
 └── download_center.html # 下载中心页面
 
 ## 自动更新
