@@ -1,6 +1,3 @@
-*.txt
-*.py
-
 
 # Python
 __pycache__/
