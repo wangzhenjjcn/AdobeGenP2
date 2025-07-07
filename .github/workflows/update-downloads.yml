@@ -17,7 +17,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -48,4 +50,6 @@ jobs:
         git config --local user.name "WangZhenAction"
         git add .
         git commit -m "Auto update: $(date '+%Y-%m-%d %H:%M:%S')"
-        git push
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
