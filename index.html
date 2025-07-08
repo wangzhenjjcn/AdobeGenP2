@@ -10,14 +10,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -26,55 +24,46 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
             text-align: center;
         }
-        
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             font-weight: 300;
         }
-        
         .header p {
             font-size: 1.1em;
             opacity: 0.9;
         }
-        
         .stats {
             background: #f8f9fa;
             padding: 20px;
             text-align: center;
             border-bottom: 1px solid #e9ecef;
         }
-        
         .stats span {
             display: inline-block;
             margin: 0 20px;
             font-size: 1.1em;
             color: #6c757d;
         }
-        
         .stats strong {
             color: #667eea;
             font-size: 1.3em;
         }
-        
         .content {
             padding: 40px;
         }
-        
         .download-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
-        
         .download-card {
             background: white;
             border-radius: 15px;
@@ -83,27 +72,23 @@
             transition: all 0.3s ease;
             border: 2px solid transparent;
         }
-        
         .download-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
             border-color: #667eea;
         }
-        
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        
         .software-name {
             font-size: 1.3em;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 5px;
         }
-        
         .file-count {
             background: #e9ecef;
             color: #6c757d;
@@ -111,13 +96,11 @@
             border-radius: 12px;
             font-size: 0.7em;
         }
-        
         .download-links {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
         .download-item {
             display: flex;
             justify-content: space-between;
@@ -128,18 +111,15 @@
             border: 1px solid #e9ecef;
             transition: all 0.3s ease;
         }
-        
         .download-item:hover {
             background: #e9ecef;
             border-color: #667eea;
         }
-        
         .version-info {
             font-size: 0.9em;
             color: #6c757d;
             font-weight: 500;
         }
-        
         .download-btn {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -151,14 +131,12 @@
             font-size: 0.8em;
             transition: all 0.3s ease;
         }
-        
         .download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             color: white;
             text-decoration: none;
         }
-        
         .footer {
             background: #f8f9fa;
             padding: 30px;
@@ -166,12 +144,10 @@
             color: #6c757d;
             border-top: 1px solid #e9ecef;
         }
-        
         .search-box {
             margin-bottom: 30px;
             text-align: center;
         }
-        
         .search-input {
             width: 100%;
             max-width: 400px;
@@ -182,27 +158,22 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
-        
         .search-input:focus {
             border-color: #667eea;
         }
-        
         .no-results {
             text-align: center;
             color: #6c757d;
             font-size: 1.2em;
             margin-top: 50px;
         }
-        
         @media (max-width: 768px) {
             .download-grid {
                 grid-template-columns: 1fr;
             }
-            
             .header h1 {
                 font-size: 2em;
             }
-            
             .content {
                 padding: 20px;
             }
@@ -215,17 +186,14 @@
         <h1>Adobe Downloads</h1>
             <p>Professional design software, one-click download, easy to get</p>
         </div>
-        
         <div class="stats">
             <span>Files: <strong>44</strong></span>
-            <span>UpdateTime: <strong>2025-07-08 03:14</strong></span>
+            <span>UpdateTime: <strong>2025-07-08 03:18</strong></span>
         </div>
-        
         <div class="content">
             <div class="search-box">
                 <input type="text" class="search-input" id="searchInput" placeholder="Search here..." onkeyup="filterSoftware()">
             </div>
-            
             <div class="download-grid" id="downloadGrid">
 
                 <div class="download-card" data-name="adobe genp">
@@ -1226,54 +1194,47 @@
                 </div>
 
             </div>
-            
             <div class="no-results" id="noResults" style="display: none;">
                 No results found
             </div>
         </div>
-        
         <div class="footer">
             <p>© 2025 Adobe GenP Downloads | All software is from the network, for learning only</p>
         </div>
     </div>
-    
     <script>
-        function filterSoftware() {{
+        function filterSoftware() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.download-card');
             const noResults = document.getElementById('noResults');
             let visibleCount = 0;
-            
-            cards.forEach(card => {{
+            cards.forEach(card => {
                 const softwareName = card.getAttribute('data-name');
-                if (softwareName.includes(searchTerm)) {{
+                if (softwareName.includes(searchTerm)) {
                     card.style.display = 'block';
                     visibleCount++;
-                }} else {{
+                } else {
                     card.style.display = 'none';
-                }}
-            }});
-            
-            if (visibleCount === 0) {{
+                }
+            });
+            if (visibleCount === 0) {
                 noResults.style.display = 'block';
-            }} else {{
+            } else {
                 noResults.style.display = 'none';
-            }}
-        }}
-        
-        // Animation effects when page loads
-        document.addEventListener('DOMContentLoaded', function() {{
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.download-card');
-            cards.forEach((card, index) => {{
+            cards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
-                setTimeout(() => {{
+                setTimeout(() => {
                     card.style.transition = 'all 0.5s ease';
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
-                }}, index * 100);
-            }});
-        }});
+                }, index * 100);
+            });
+        });
     </script>
 </body>
 </html>
