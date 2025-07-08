@@ -416,7 +416,7 @@ def create_main_download_page():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Downloads</title>
+    <title>Adobe GenP Downloads</title>
     <style>
         * {{
             margin: 0;
@@ -685,7 +685,7 @@ def create_main_download_page():
         </div>
         
         <div class="footer">
-            <p>© 2025 Adobe Downloads | All software is from the network, for learning only</p>
+            <p>© 2025 Adobe GenP Downloads | All software is from the network, for learning only</p>
         </div>
     </div>
     
