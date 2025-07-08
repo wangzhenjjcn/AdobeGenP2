@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from datetime import datetime
 
-# adobe产品及别称正则
+# Adobe product name patterns and aliases
 adobe_patterns = [
     r'photoshop', r'lightroom', r'illustrator', r'xd', r'premiere', r'after[- ]?effects',
     r'indesign', r'audition', r'animate', r'bridge', r'acrobat', r'dreamweaver',
@@ -17,12 +17,12 @@ product_year_regex = re.compile(
     re.IGNORECASE
 )
 
-# 需要排除的链接
+# Links to exclude
 exclude_links = {
     "https://www.cybermania.ws/apps/",
 }
 
-# 强制包含的链接
+# Links to force include
 force_include_links = {
     "https://www.cybermania.ws/cybermania/disable-adobe-genuine-software-integrity-service/",
     "https://www.cybermania.ws/apps/ags-disabler-disable-adobe-genuine-software/",
@@ -34,16 +34,16 @@ base_url = "https://www.cybermania.ws"
 search_url = f"{base_url}/?s=adobe"
 
 def is_valid_adobe_link(href):
-    # 强制包含的链接直接返回True
+    # Force include links return True directly
     if href in force_include_links:
         return True
     
-    # 必须以/apps/开头，不能包含comment-page、#，不能是排除链接
+    # Must start with /apps/, cannot contain comment-page, #, and cannot be excluded links
     if not href.startswith(link_prefix):
         return False
     if "comment-page" in href or "#" in href or href in exclude_links:
         return False
-    # 必须包含产品名+年份
+    # Must contain product name + year
     return bool(product_year_regex.search(href))
 
 def get_links_from_page(url):
@@ -58,13 +58,13 @@ def get_links_from_page(url):
     return links, soup
 
 def has_next_page(soup, current_page):
-    # 修复：使用string参数替代text参数
-    # 方法1: 查找"Older posts"按钮
+    # Fix: use string parameter instead of text parameter
+    # Method 1: Find "Older posts" button
     older_posts = soup.find("a", string=lambda s: s and "Older posts" in s)
     if older_posts:
         return True
     
-    # 方法2: 查找分页导航中的下一页链接
+    # Method 2: Find next page links in pagination navigation
     pagination = soup.find("div", class_="pagination")
     if pagination:
         next_links = pagination.find_all("a", href=True)
@@ -72,11 +72,11 @@ def has_next_page(soup, current_page):
             if f"/post/{current_page+1}/" in link["href"]:
                 return True
     
-    # 方法3: 查找所有链接中的下一页 - 修复URL格式
+    # Method 3: Find next page in all links - fix URL format
     all_links = soup.find_all("a", href=True)
     for link in all_links:
         href = link["href"]
-        # 检查正确的分页URL格式
+        # Check correct pagination URL format
         if any(pattern in href for pattern in [
             f"/post/{current_page+1}/?s=adobe",
             f"/post/{current_page+1}/",
@@ -86,19 +86,19 @@ def has_next_page(soup, current_page):
     return False
 
 def get_next_page_url(current_page):
-    """获取下一页的URL，使用正确的格式"""
+    """Get next page URL using correct format"""
     if current_page == 1:
         return search_url
     
-    # 使用正确的分页URL格式
+    # Use correct pagination URL format
     return f"{base_url}/post/{current_page}/?s=adobe"
 
 def extract_folder_name(url):
-    """从URL中提取文件夹名"""
-    # 移除末尾的斜杠
+    """Extract folder name from URL"""
+    # Remove trailing slash
     url = url.rstrip('/')
     
-    # 处理强制包含的链接
+    # Handle force include links
     if url in force_include_links:
         if url == "https://www.cybermania.ws/cybermania/disable-adobe-genuine-software-integrity-service/":
             return "disable-adobe-genuine-software-integrity-service"
@@ -107,7 +107,7 @@ def extract_folder_name(url):
         elif url == "https://www.cybermania.ws/apps/adobe-genp/":
             return "adobe-genp"
     
-    # 获取apps后面的部分
+    # Get the part after /apps/
     if '/apps/' in url:
         return url.split('/apps/')[-1]
     elif '/cybermania/' in url:
@@ -115,41 +115,41 @@ def extract_folder_name(url):
     return None
 
 def find_download_links(soup):
-    """查找页面中的所有Download链接"""
+    """Find all Download links in the page"""
     download_links = []
     
-    # 首先获取页面标题中的版本信息
+    # First get version information from page title
     version_info = ""
     h1_tag = soup.find("h1", class_="insidepost")
     if h1_tag:
         version_info = h1_tag.get_text(strip=True)
-        # 提取版本号（通常是最后一个数字部分）
+        # Extract version number (usually the last numeric part)
         version_match = re.search(r'(\d+\.\d+\.\d+\.\d+|\d+\.\d+\.\d+|\d+\.\d+|\d+)$', version_info)
         if version_match:
             version_info = version_match.group(1)
     
-    # 查找所有包含"Download"文本的链接
+    # Find all links containing "Download" text
     for a in soup.find_all("a", href=True):
         if a.get_text(strip=True).lower() == "download":
-            # 查找前面的strong标签 - 这是安装模式提示
+            # Find strong tag before Download link - this is installation mode hint
             install_mode = ""
             
-            # 方法1: 查找Download链接前面的strong标签
+            # Method 1: Find strong tag before Download link
             current = a
             found_strong = False
             
-            # 向上遍历DOM树，查找strong标签
+            # Traverse up DOM tree to find strong tag
             while current and not found_strong:
-                # 检查当前元素的前一个兄弟元素
+                # Check previous sibling of current element
                 prev_sibling = current.find_previous_sibling()
                 while prev_sibling and not found_strong:
-                    # 在当前兄弟元素中查找strong
+                    # Find strong in current sibling
                     strong = prev_sibling.find('strong')
                     if strong:
                         install_mode = strong.get_text(strip=True)
                         found_strong = True
                         break
-                    # 递归查找兄弟元素的子元素中的strong
+                    # Recursively find strong in child elements of sibling
                     strong = prev_sibling.find('strong', recursive=True)
                     if strong:
                         install_mode = strong.get_text(strip=True)
@@ -157,36 +157,36 @@ def find_download_links(soup):
                         break
                     prev_sibling = prev_sibling.find_previous_sibling()
                 
-                # 如果没找到，继续向上查找父元素
+                # If not found, continue searching up parent element
                 if not found_strong:
                     current = current.parent
             
-            # 方法2: 如果方法1没找到，查找包含Download的h2标签前面的p标签中的strong
+            # Method 2: If method 1 didn't find, look for p tag before h2 containing Download
             if not install_mode:
-                # 查找包含Download链接的h2标签
+                # Find h2 tag containing Download link
                 h2_tag = a.find_parent('h2')
                 if h2_tag:
-                    # 查找h2前面的p标签
+                    # Find p tag before h2
                     prev_p = h2_tag.find_previous_sibling('p')
                     if prev_p:
                         strong = prev_p.find('strong')
                         if strong:
                             install_mode = strong.get_text(strip=True)
             
-            # 方法3: 如果方法2没找到，查找Download链接前面的所有strong标签
+            # Method 3: If method 2 didn't find, look for all strong tags before Download link
             if not install_mode:
-                # 获取页面中所有strong标签
+                # Get all strong tags in page
                 all_strongs = soup.find_all('strong')
                 download_position = None
                 
-                # 找到Download链接在页面中的位置
+                # Find Download link position in page
                 for i, tag in enumerate(soup.find_all()):
                     if tag == a:
                         download_position = i
                         break
                 
                 if download_position is not None:
-                    # 查找Download链接前面的strong标签
+                    # Find strong tags before Download link
                     for strong in all_strongs:
                         strong_position = None
                         for i, tag in enumerate(soup.find_all()):
@@ -195,7 +195,7 @@ def find_download_links(soup):
                                 break
                         
                         if strong_position is not None and strong_position < download_position:
-                            # 找到Download链接前面的strong标签
+                            # Found strong tag before Download link
                             install_mode = strong.get_text(strip=True)
                             break
             
@@ -208,9 +208,9 @@ def find_download_links(soup):
     return download_links
 
 def create_download_html(download_url, version_info="", install_mode=""):
-    """创建下载页面的HTML内容"""
+    """Create HTML content for download page"""
     html_content = f"""<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -265,58 +265,58 @@ def create_download_html(download_url, version_info="", install_mode=""):
     return html_content
 
 def process_download_links():
-    """处理data.txt中的所有链接"""
+    """Process all links in data.txt"""
     data_file = "data/data.txt"
     
     if not os.path.exists(data_file):
-        print(f"错误: 找不到文件 {data_file}")
+        print(f"Error: File not found {data_file}")
         return
     
     with open(data_file, 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f if line.strip()]
     
-    print(f"开始处理 {len(urls)} 个链接...")
+    print(f"Starting to process {len(urls)} links...")
     
     for i, url in enumerate(urls, 1):
-        print(f"\n处理第 {i}/{len(urls)} 个链接: {url}")
+        print(f"\nProcessing link {i}/{len(urls)}: {url}")
         
-        # 提取文件夹名
+        # Extract folder name
         folder_name = extract_folder_name(url)
         if not folder_name:
-            print(f"  跳过: 无法提取文件夹名")
+            print(f"  Skip: Cannot extract folder name")
             continue
         
-        # 创建文件夹 - 修复：保存到DownloadLinks文件夹
+        # Create folder - Fix: save to DownloadLinks folder
         folder_path = os.path.join("DownloadLinks", folder_name)
         os.makedirs(folder_path, exist_ok=True)
-        print(f"  创建文件夹: {folder_path}")
+        print(f"  Created folder: {folder_path}")
         
         try:
-            # 访问页面
+            # Access page
             response = requests.get(url)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
             
-            # 查找下载链接
+            # Find download links
             download_links = find_download_links(soup)
-            print(f"  找到 {len(download_links)} 个下载链接")
+            print(f"  Found {len(download_links)} download links")
             
             if not download_links:
-                # 如果没有找到下载链接，创建一个默认的HTML文件
+                # If no download links found, create a default HTML file
                 default_html = create_download_html("", "", "")
                 with open(os.path.join(folder_path, "DownloadPage.html"), 'w', encoding='utf-8') as f:
                     f.write(default_html)
-                print(f"  创建默认下载页面: DownloadPage.html")
+                print(f"  Created default download page: DownloadPage.html")
             else:
-                # 处理每个下载链接
+                # Process each download link
                 for j, download_info in enumerate(download_links, 1):
                     version_info = download_info['version_info']
                     install_mode = download_info['install_mode']
                     download_url = download_info['url']
                     
-                    # 生成文件名
+                    # Generate filename
                     if version_info and install_mode:
-                        # 清理文件名中的特殊字符
+                        # Clean special characters from filename
                         clean_version = re.sub(r'[<>:"/\\|?*]', '_', version_info)
                         clean_install_mode = re.sub(r'[<>:"/\\|?*]', '_', install_mode)
                         filename = f"{clean_version}-{clean_install_mode}-DownloadPage.html"
@@ -329,46 +329,46 @@ def process_download_links():
                     else:
                         filename = f"DownloadPage-{j}.html" if len(download_links) > 1 else "DownloadPage.html"
                     
-                    # 创建HTML内容
+                    # Create HTML content
                     html_content = create_download_html(download_url, version_info, install_mode)
                     
-                    # 保存文件
+                    # Save file
                     file_path = os.path.join(folder_path, filename)
                     with open(file_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
                     
-                    print(f"  保存下载页面: {filename} -> {download_url}")
+                    print(f"  Saved download page: {filename} -> {download_url}")
                     if version_info:
-                        print(f"    版本信息: {version_info}")
+                        print(f"    Version info: {version_info}")
                     if install_mode:
-                        print(f"    安装模式: {install_mode}")
+                        print(f"    Install mode: {install_mode}")
                     
         except Exception as e:
-            print(f"  错误: {e}")
+            print(f"  Error: {e}")
             continue
     
-    print(f"\n处理完成！")
+    print(f"\nProcessing completed!")
 
 def create_main_download_page():
-    """创建主下载页面"""
+    """Create main download page"""
     
-    # 检查DownloadLinks目录是否存在
+    # Check if DownloadLinks directory exists
     if not os.path.exists("DownloadLinks"):
-        print("错误: DownloadLinks目录不存在")
+        print("Error: DownloadLinks directory does not exist")
         return
     
-    # 收集所有下载链接信息
+    # Collect all download link information
     download_items = []
     
-    # 遍历DownloadLinks目录
+    # Traverse DownloadLinks directory
     for folder_name in os.listdir("DownloadLinks"):
         folder_path = os.path.join("DownloadLinks", folder_name)
         if os.path.isdir(folder_path):
-            # 查找该文件夹中的所有HTML文件
+            # Find all HTML files in the folder
             html_files = [f for f in os.listdir(folder_path) if f.endswith('.html')]
             
             if html_files:
-                # 读取所有HTML文件，提取下载信息
+                # Read all HTML files, extract download information
                 download_files = []
                 
                 for html_file in html_files:
@@ -376,15 +376,15 @@ def create_main_download_page():
                     try:
                         with open(html_file_path, 'r', encoding='utf-8') as f:
                             content = f.read()
-                            # 提取href链接
+                            # Extract href link
                             href_match = re.search(r'href="([^"]+)"', content)
                             download_url = href_match.group(1) if href_match else ""
                             
-                            # 提取版本信息
+                            # Extract version information
                             version_match = re.search(r'<strong>Version:</strong> ([^<]+)</p>', content)
                             version_info = version_match.group(1) if version_match else ""
                             
-                            # 提取安装模式信息
+                            # Extract installation mode information
                             install_match = re.search(r'<strong>Install Mode:</strong> ([^<]+)</p>', content)
                             install_mode = install_match.group(1) if install_match else ""
                             
@@ -395,10 +395,10 @@ def create_main_download_page():
                                 'install_mode': install_mode
                             })
                     except Exception as e:
-                        print(f"处理文件 {html_file} 时出错: {e}")
+                        print(f"Error processing file {html_file}: {e}")
                 
                 if download_files:
-                    # 美化文件夹名
+                    # Beautify folder name
                     display_name = folder_name.replace('-', ' ').replace('_', ' ').title()
                     
                     download_items.append({
@@ -407,12 +407,12 @@ def create_main_download_page():
                         'files': download_files
                     })
     
-    # 按名称排序
+    # Sort by name
     download_items.sort(key=lambda x: x['name'])
     
-    # 生成HTML内容
+    # Generate HTML content
     html_content = f"""<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -625,7 +625,7 @@ def create_main_download_page():
 <body>
     <div class="container">
         <div class="header">
-        <h1> Adobe Downloads</h1>
+        <h1>Adobe Downloads</h1>
             <p>Professional design software, one-click download, easy to get</p>
         </div>
         
@@ -642,20 +642,22 @@ def create_main_download_page():
             <div class="download-grid" id="downloadGrid">
 """
 
-    # 生成每个下载卡片的HTML
+    # Generate HTML for each download card
     for item in download_items:
         file_count_text = f"{len(item['files'])} Versions" if len(item['files']) > 1 else "1 Version"
         
         html_content += f"""
-                        <div class="download-item">
-                            <div class="version-info">{version_display} {install_mode_display}</div>
-                            <a href="./DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
-                                📥 Download
-                            </a>
+                <div class="download-card" data-name="{item['name'].lower()}">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">{item['name']}</div>
+                            <div class="file-count">{file_count_text}</div>
                         </div>
+                    </div>
+                    <div class="download-links">
 """
 
-        # 为每个文件生成下载链接
+        # Generate download links for each file - Modified for GitHub Pages path
         for i, file_info in enumerate(item['files'], 1):
             version_display = file_info['version_info'] if file_info['version_info'] else "Standard"
             install_mode_display = file_info['install_mode'] if file_info['install_mode'] else ""
@@ -663,7 +665,7 @@ def create_main_download_page():
             html_content += f"""
                         <div class="download-item">
                             <div class="version-info">{version_display} {install_mode_display}</div>
-                            <a href="DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
+                            <a href="./DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
                                 📥 Download
                             </a>
                         </div>
@@ -711,7 +713,7 @@ def create_main_download_page():
             }}
         }}
         
-        // 页面加载时的动画效果
+        // Animation effects when page loads
         document.addEventListener('DOMContentLoaded', function() {{
             const cards = document.querySelectorAll('.download-card');
             cards.forEach((card, index) => {{
@@ -728,7 +730,7 @@ def create_main_download_page():
 </body>
 </html>"""
 
-    # 保存HTML文件
+    # Save HTML file as index.html
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
     
@@ -740,9 +742,9 @@ def main():
     os.makedirs("data", exist_ok=True)
     all_links = set()
     page = 1
-    max_pages = 50  # 设置最大页数限制，防止无限循环
+    max_pages = 50  # Set maximum page limit to prevent infinite loop
     
-    # 首先添加强制包含的链接
+    # First add force include links
     all_links.update(force_include_links)
     print(f"Added {len(force_include_links)} forced include links")
     
@@ -755,19 +757,19 @@ def main():
             links, soup = get_links_from_page(url)
             print(f"Page {page} found {len(links)} valid links")
             
-            # 如果第一页没有找到任何链接，可能网站结构有问题
+            # If no links found on first page, website structure might be problematic
             if page == 1 and not links:
                 print("Warning: No valid links found on the first page, please check the website structure")
                 break
             
-            # 如果非第一页没有找到链接，说明已经到最后一页
+            # If no links found on non-first page, reached the last page
             if page > 1 and not links:
                 print(f"Page {page} has no links, reached the last page")
                 break
             
             all_links.update(links)
             
-            # 检查是否还有下一页
+            # Check if there's a next page
             if not has_next_page(soup, page):
                 print(f"Page {page} has no next page links, stopped fetching")
                 break
@@ -785,18 +787,18 @@ def main():
         
         page += 1
     
-    # 写入文件
+    # Write to file
     with open("data/data.txt", "w", encoding="utf-8") as f:
         for link in sorted(all_links):
             f.write(link + "\n")
     
     print(f"Total saved {len(all_links)} links to data/data.txt")
     
-    # 处理下载链接
+    # Process download links
     print("\nStarting to process download links...")
     process_download_links()
     
-    # 生成下载中心页面
+    # Generate download center page
     print("\nStarting to generate download center page...")
     create_main_download_page()
 
