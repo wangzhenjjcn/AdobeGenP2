@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Downloads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .stats span {
+            display: inline-block;
+            margin: 0 20px;
+            font-size: 1.1em;
+            color: #6c757d;
+        }
+        
+        .stats strong {
+            color: #667eea;
+            font-size: 1.3em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .download-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .software-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .file-count {
+            background: #e9ecef;
+            color: #6c757d;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+        }
+        
+        .download-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .download-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .download-item:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+        
+        .version-info {
+            font-size: 0.9em;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .search-box {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2em;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+        <h1>Adobe Downloads</h1>
+            <p>Professional design software, one-click download, easy to get</p>
+        </div>
+        
+        <div class="stats">
+            <span>Files: <strong>44</strong></span>
+            <span>UpdateTime: <strong>2025-07-08 00:45</strong></span>
+        </div>
+        
+        <div class="content">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search here..." onkeyup="filterSoftware()">
+            </div>
+            
+            <div class="download-grid" id="downloadGrid">
+
+                <div class="download-card" data-name="adobe genp">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Adobe Genp</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">3.6.8 Thanks to E1uSiv3  sharing</div>
+                            <a href="./DownloadLinks/adobe-genp/3.6.8-Thanks to E1uSiv3  sharing-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">3.6.8 Source</div>
+                            <a href="./DownloadLinks/adobe-genp/3.6.8-Source-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="after effects 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">After Effects 2022</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.0.64 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/after-effects-2022/22.6.0.64-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="after effects 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">After Effects 2023</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">23.5.0.52 (@vposy Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/after-effects-2023/23.5.0.52-(@vposy Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="after effects 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">After Effects 2024</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.1.002 Adobe After Effects 2024 v24.1 Multilingual macOS</div>
+                            <a href="./DownloadLinks/after-effects-2024/24.6.1.002-Adobe After Effects 2024 v24.1 Multilingual macOS-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.1.002 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/after-effects-2024/24.6.1.002-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="after effects 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">After Effects 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">25.3.1.003 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/after-effects-2025/25.3.1.003-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="ags disabler disable adobe genuine software">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Ags Disabler Disable Adobe Genuine Software</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">AGS Disabler (Disable Adobe Genuine Software) Release by ImpetuousRacer</div>
+                            <a href="./DownloadLinks/ags-disabler-disable-adobe-genuine-software/AGS Disabler (Disable Adobe Genuine Software)-Release by ImpetuousRacer-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="animate 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Animate 2022</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">22.0.8.217 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/animate-2022/22.0.8.217-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="animate 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Animate 2023</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">23.0.2.103 (@vposy Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/animate-2023/23.0.2.103-(@vposy Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">23.0.2.103 (CyberMania Silent Install Repack) x64 Temp Drive</div>
+                            <a href="./DownloadLinks/animate-2023/23.0.2.103-(CyberMania Silent Install Repack) x64 Temp Drive-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="animate 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Animate 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.0.9.74 (CyberMania Silent Install Repack) x64 Temp Drive</div>
+                            <a href="./DownloadLinks/animate-2024/24.0.9.74-(CyberMania Silent Install Repack) x64 Temp Drive-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="audition 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Audition 2022</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.0.66 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/audition-2022/22.6.0.66-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.0.66 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/audition-2022/22.6.0.66-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="audition 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Audition 2023</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.1.3 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/audition-2023/23.6.1.3-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.1.3 (Vposy Preactivated Installer) x64 Temp Drive 23.5.0.48</div>
+                            <a href="./DownloadLinks/audition-2023/23.6.1.3-(Vposy Preactivated Installer) x64 Temp Drive 23.5.0.48-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="audition 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Audition 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.0.069 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/audition-2024/24.6.0.069-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="audition 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Audition 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">25.3.0.071 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/audition-2025/25.3.0.071-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="bridge 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Bridge 2022</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">12.0.3.270 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/bridge-2022/12.0.3.270-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="bridge 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Bridge 2023</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">13.0.4.755 (@vposy Preactivated Installer) x64 13.0.3.693</div>
+                            <a href="./DownloadLinks/bridge-2023/13.0.4.755-(@vposy Preactivated Installer) x64 13.0.3.693-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">13.0.4.755 (CyberMania Silent Install Repack) x64 (Temp Drive)</div>
+                            <a href="./DownloadLinks/bridge-2023/13.0.4.755-(CyberMania Silent Install Repack) x64 (Temp Drive)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="bridge 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Bridge 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">14.1.2.300 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/bridge-2024/14.1.2.300-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="bridge 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Bridge 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">15.1.0.635 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/bridge-2025/15.1.0.635-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="disable adobe genuine software integrity service">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Disable Adobe Genuine Software Integrity Service</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">Disable Adobe Genuine Software Integrity Service (GENP) </div>
+                            <a href="./DownloadLinks/disable-adobe-genuine-software-integrity-service/Disable Adobe Genuine Software Integrity Service (GENP)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="dreamweaver 2021">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Dreamweaver 2021</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">21.3.0.15593 Adobe Dreamweaver 2021 v21.1.0.15413 x64 (macOS)</div>
+                            <a href="./DownloadLinks/dreamweaver-2021/21.3.0.15593-Adobe Dreamweaver 2021 v21.1.0.15413 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">21.3.0.15593 CSS Designer.</div>
+                            <a href="./DownloadLinks/dreamweaver-2021/21.3.0.15593-CSS Designer.-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="illustrator 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Illustrator 2022</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">26.5.0.223 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/illustrator-2022/26.5.0.223-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">26.5.0.223 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/illustrator-2022/26.5.0.223-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="illustrator 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Illustrator 2023</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">27.9.0.80 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/illustrator-2023/27.9.0.80-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">27.9.0.80 System Requirements and Technical Details</div>
+                            <a href="./DownloadLinks/illustrator-2023/27.9.0.80-System Requirements and Technical Details-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">27.9.0.80 (@Vposy Preactivated Installer) x64 27.6.0.209</div>
+                            <a href="./DownloadLinks/illustrator-2023/27.9.0.80-(@Vposy Preactivated Installer) x64 27.6.0.209-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="illustrator 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Illustrator 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">28.7.1.142 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/illustrator-2024/28.7.1.142-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="illustrator 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Illustrator 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">29.6.1.9 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/illustrator-2025/29.6.1.9-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="indesign 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Indesign 2022</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">17.4.0.051 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/indesign-2022/17.4.0.051-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="indesign 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Indesign 2023</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">18.5.0.057 (@Vposy Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/indesign-2023/18.5.0.057-(@Vposy Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="indesign 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Indesign 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">19.5.0.084 (monkrus Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/indesign-2024/19.5.0.084-(monkrus Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="indesign 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Indesign 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20.4.0.052 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/indesign-2025/20.4.0.052-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="media encoder 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Media Encoder 2022</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.1.2 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/media-encoder-2022/22.6.1.2-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="media encoder 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Media Encoder 2023</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.0.62 (CyberMania Silent Install Repack) x64 Temp Drive</div>
+                            <a href="./DownloadLinks/media-encoder-2023/23.6.0.62-(CyberMania Silent Install Repack) x64 Temp Drive-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.0.62 (@Vposy Preactivated Installer) x64 23.5.0.51</div>
+                            <a href="./DownloadLinks/media-encoder-2023/23.6.0.62-(@Vposy Preactivated Installer) x64 23.5.0.51-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="media encoder 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Media Encoder 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.1.002 (CyberMania Silent install Repack) x64</div>
+                            <a href="./DownloadLinks/media-encoder-2024/24.6.1.002-(CyberMania Silent install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="media encoder 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Media Encoder 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">25.3.0.073 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/media-encoder-2025/25.3.0.073-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop 2021">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop 2021</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">22.5.9.1101 (Preactivated Installer)  x64</div>
+                            <a href="./DownloadLinks/photoshop-2021/22.5.9.1101-(Preactivated Installer)  x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">22.5.9.1101 (CyberMania Silent Install Repack)  x64</div>
+                            <a href="./DownloadLinks/photoshop-2021/22.5.9.1101-(CyberMania Silent Install Repack)  x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">22.5.9.1101 (macOS) 22.4.3.317</div>
+                            <a href="./DownloadLinks/photoshop-2021/22.5.9.1101-(macOS) 22.4.3.317-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop 2024</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">25.12.0.806 System Requirements and Technical Details</div>
+                            <a href="./DownloadLinks/photoshop-2024/25.12.0.806-System Requirements and Technical Details-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">25.12.0.806 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-2024/25.12.0.806-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">26.8.1.8 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-2025/26.8.1.8-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop Lightroom 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">7.2 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-2024/7.2-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop Lightroom 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">8.0 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-2025/8.0-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop Lightroom Classic 2022</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">11.5.0.4 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2022/11.5.0.4-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">11.5.0.4 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2022/11.5.0.4-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop Lightroom Classic 2023</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">12.5.0.1 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2023/12.5.0.1-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">12.5.0.1 (@vposy Preactivated Installer) x64 12.4.0.8</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2023/12.5.0.1-(@vposy Preactivated Installer) x64 12.4.0.8-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop Lightroom Classic 2024</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">13.5.1.1 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2024/13.5.1.1-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Photoshop Lightroom Classic 2025</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">14.4.0.8 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2025/14.4.0.8-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="premiere pro 2022">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Premiere Pro 2022</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.2.2 (CyberMania Autolyric Repack) x64 (To use with repack above if needed)</div>
+                            <a href="./DownloadLinks/premiere-pro-2022/22.6.2.2-(CyberMania Autolyric Repack) x64 (To use with repack above if needed)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.2.2 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2022/22.6.2.2-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">22.6.2.2 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2022/22.6.2.2-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="premiere pro 2023">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Premiere Pro 2023</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.0.65 Repack Extra Auto Lyrics (Updated 22 Feb 2023)</div>
+                            <a href="./DownloadLinks/premiere-pro-2023/23.6.0.65-Repack Extra Auto Lyrics (Updated 22 Feb 2023)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.0.65 (@vposy Preactivated Installer) x64 23.5.0.56</div>
+                            <a href="./DownloadLinks/premiere-pro-2023/23.6.0.65-(@vposy Preactivated Installer) x64 23.5.0.56-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">23.6.0.65 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2023/23.6.0.65-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="premiere pro 2024">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Premiere Pro 2024</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.1.002 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2024/24.6.1.002-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.1.002 Repack Extra Auto Lyrics (Updated 25 May 2024)</div>
+                            <a href="./DownloadLinks/premiere-pro-2024/24.6.1.002-Repack Extra Auto Lyrics (Updated 25 May 2024)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">24.6.1.002 Adobe Premiere Pro 2024 v24.1 Multilingual macOS</div>
+                            <a href="./DownloadLinks/premiere-pro-2024/24.6.1.002-Adobe Premiere Pro 2024 v24.1 Multilingual macOS-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="premiere pro 2025">
+                    <div class="card-header">
+                        <div>
+                            <div class="software-name">Premiere Pro 2025</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">25.3.0.084 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2025/25.3.0.084-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">25.3.0.084 Adobe Speech to Text v2.1.6 for Premiere Pro 2025</div>
+                            <a href="./DownloadLinks/premiere-pro-2025/25.3.0.084-Adobe Speech to Text v2.1.6 for Premiere Pro 2025-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="no-results" id="noResults" style="display: none;">
+                No results found
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Adobe Downloads | All software is from the network, for learning only</p>
+        </div>
+    </div>
+    
+    <script>
+        function filterSoftware() {{
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.download-card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {{
+                const softwareName = card.getAttribute('data-name');
+                if (softwareName.includes(searchTerm)) {{
+                    card.style.display = 'block';
+                    visibleCount++;
+                }} else {{
+                    card.style.display = 'none';
+                }}
+            }});
+            
+            if (visibleCount === 0) {{
+                noResults.style.display = 'block';
+            }} else {{
+                noResults.style.display = 'none';
+            }}
+        }}
+        
+        // Animation effects when page loads
+        document.addEventListener('DOMContentLoaded', function() {{
+            const cards = document.querySelectorAll('.download-card');
+            cards.forEach((card, index) => {{
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {{
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }}, index * 100);
+            }});
+        }});
+    </script>
+</body>
+</html>
