@@ -729,12 +729,12 @@ def create_main_download_page():
 </html>"""
 
     # 保存HTML文件
-    with open("download_center.html", "w", encoding="utf-8") as f:
+    with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
     
-    print(f"Generated download center page: download_center.html")
+    print(f"Generated download center page: index.html")
     print(f"Contains {len(download_items)} software download links")
-    print("Please open download_center.html in your browser to view the results")
+    print("Please open index.html in your browser to view the results")
 
 def main():
     os.makedirs("data", exist_ok=True)
