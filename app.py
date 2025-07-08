@@ -647,14 +647,12 @@ def create_main_download_page():
         file_count_text = f"{len(item['files'])} Versions" if len(item['files']) > 1 else "1 Version"
         
         html_content += f"""
-                <div class="download-card" data-name="{item['name'].lower()}">
-                    <div class="card-header">
-                        <div>
-                            <div class="software-name">{item['name']}</div>
-                            <div class="file-count">{file_count_text}</div>
+                        <div class="download-item">
+                            <div class="version-info">{version_display} {install_mode_display}</div>
+                            <a href="./DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
                         </div>
-                    </div>
-                    <div class="download-links">
 """
 
         # 为每个文件生成下载链接
