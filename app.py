@@ -416,7 +416,7 @@ def create_main_download_page():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe 软件下载中心</title>
+    <title>Adobe Downloads</title>
     <style>
         * {{
             margin: 0;
@@ -625,18 +625,18 @@ def create_main_download_page():
 <body>
     <div class="container">
         <div class="header">
-            <h1> Adobe 软件下载中心</h1>
-            <p>专业的设计软件，一键下载，轻松获取</p>
+        <h1> Adobe Downloads</h1>
+            <p>Professional design software, one-click download, easy to get</p>
         </div>
         
         <div class="stats">
-            <span>总软件数: <strong>{len(download_items)}</strong></span>
-            <span>更新时间: <strong>{datetime.now().strftime('%Y-%m-%d %H:%M')}</strong></span>
+            <span>Files: <strong>{len(download_items)}</strong></span>
+            <span>UpdateTime: <strong>{datetime.now().strftime('%Y-%m-%d %H:%M')}</strong></span>
         </div>
         
         <div class="content">
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="搜索软件名称..." onkeyup="filterSoftware()">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search here..." onkeyup="filterSoftware()">
             </div>
             
             <div class="download-grid" id="downloadGrid">
@@ -644,7 +644,7 @@ def create_main_download_page():
 
     # 生成每个下载卡片的HTML
     for item in download_items:
-        file_count_text = f"{len(item['files'])} 个版本" if len(item['files']) > 1 else "1 个版本"
+        file_count_text = f"{len(item['files'])} Versions" if len(item['files']) > 1 else "1 Version"
         
         html_content += f"""
                 <div class="download-card" data-name="{item['name'].lower()}">
@@ -659,14 +659,14 @@ def create_main_download_page():
 
         # 为每个文件生成下载链接
         for i, file_info in enumerate(item['files'], 1):
-            version_display = file_info['version_info'] if file_info['version_info'] else "标准版本"
+            version_display = file_info['version_info'] if file_info['version_info'] else "Standard"
             install_mode_display = file_info['install_mode'] if file_info['install_mode'] else ""
             
             html_content += f"""
                         <div class="download-item">
                             <div class="version-info">{version_display} {install_mode_display}</div>
                             <a href="DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
-                                📥 下载
+                                📥 Download
                             </a>
                         </div>
 """
@@ -680,12 +680,12 @@ def create_main_download_page():
             </div>
             
             <div class="no-results" id="noResults" style="display: none;">
-                没有找到匹配的软件
+                No results found
             </div>
         </div>
         
         <div class="footer">
-            <p>© 2024 Adobe 软件下载中心 | 所有软件均来自网络，仅供学习使用</p>
+            <p>© 2025 Adobe Downloads | All software is from the network, for learning only</p>
         </div>
     </div>
     
@@ -734,9 +734,9 @@ def create_main_download_page():
     with open("download_center.html", "w", encoding="utf-8") as f:
         f.write(html_content)
     
-    print(f"已生成下载中心页面: download_center.html")
-    print(f"包含 {len(download_items)} 个软件下载链接")
-    print("请在浏览器中打开 download_center.html 查看效果")
+    print(f"Generated download center page: download_center.html")
+    print(f"Contains {len(download_items)} software download links")
+    print("Please open download_center.html in your browser to view the results")
 
 def main():
     os.makedirs("data", exist_ok=True)
@@ -746,43 +746,43 @@ def main():
     
     # 首先添加强制包含的链接
     all_links.update(force_include_links)
-    print(f"已添加 {len(force_include_links)} 个强制包含的链接")
+    print(f"Added {len(force_include_links)} forced include links")
     
     while page <= max_pages:
         url = get_next_page_url(page)
         
-        print(f"正在抓取第{page}页: {url}")
+        print(f"Fetching page {page}: {url}")
         
         try:
             links, soup = get_links_from_page(url)
-            print(f"第{page}页找到 {len(links)} 个有效链接")
+            print(f"Page {page} found {len(links)} valid links")
             
             # 如果第一页没有找到任何链接，可能网站结构有问题
             if page == 1 and not links:
-                print("警告: 第一页没有找到任何有效链接，请检查网站结构")
+                print("Warning: No valid links found on the first page, please check the website structure")
                 break
             
             # 如果非第一页没有找到链接，说明已经到最后一页
             if page > 1 and not links:
-                print(f"第{page}页没有找到链接，已到达最后一页")
+                print(f"Page {page} has no links, reached the last page")
                 break
             
             all_links.update(links)
             
             # 检查是否还有下一页
             if not has_next_page(soup, page):
-                print(f"第{page}页没有找到下一页链接，停止抓取")
+                print(f"Page {page} has no next page links, stopped fetching")
                 break
                 
         except requests.exceptions.HTTPError as e:
             if e.response.status_code == 404:
-                print(f"第{page}页返回404，已到达最后一页")
+                print(f"Page {page} returned 404, reached the last page")
                 break
             else:
-                print(f"请求第{page}页失败: {e}")
+                print(f"Request for page {page} failed: {e}")
                 break
         except Exception as e:
-            print(f"请求第{page}页失败: {e}")
+            print(f"Request for page {page} failed: {e}")
             break
         
         page += 1
@@ -792,14 +792,14 @@ def main():
         for link in sorted(all_links):
             f.write(link + "\n")
     
-    print(f"总共保存 {len(all_links)} 个链接到 data/data.txt")
+    print(f"Total saved {len(all_links)} links to data/data.txt")
     
     # 处理下载链接
-    print("\n开始处理下载链接...")
+    print("\nStarting to process download links...")
     process_download_links()
     
     # 生成下载中心页面
-    print("\n开始生成下载中心页面...")
+    print("\nStarting to generate download center page...")
     create_main_download_page()
 
 if __name__ == "__main__":
