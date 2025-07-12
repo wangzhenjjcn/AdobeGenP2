@@ -197,76 +197,82 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
     <title>Download Link</title>
     <style>
         body {{
-            font-family: Arial, sans-serif;
-            margin: 50px;
-            background-color: #f5f5f5;
-        }}
-        .container {{
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }}
-        .software-header {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
-            gap: 20px;
+            justify-content: center;
+        }}
+        .container {{
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }}
         .software-image {{
-            flex-shrink: 0;
             width: 120px;
             height: 120px;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }}
         .software-image img {{
             width: 100%;
             height: 100%;
             object-fit: cover;
         }}
-        .software-info {{
-            flex: 1;
-        }}
         .software-name {{
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.2;
         }}
         .software-description {{
-            color: #666;
+            color: #6c757d;
             line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 16px;
         }}
         .version-info {{
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
         }}
         .version-info p {{
-            margin: 5px 0;
-            color: #555;
+            margin: 8px 0;
+            color: #495057;
+            font-weight: 500;
+            font-size: 14px;
         }}
         .download-btn {{
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 15px 30px;
+            padding: 18px 40px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 50px;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            min-width: 200px;
         }}
         .download-btn:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
             color: white;
             text-decoration: none;
         }}
@@ -278,22 +284,37 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 12px;
+            font-size: 24px;
             text-align: center;
+        }}
+        .download-icon {{
+            margin-right: 8px;
+            font-size: 20px;
+        }}
+        @media (max-width: 768px) {{
+            .container {{
+                margin: 10px;
+                padding: 30px 20px;
+            }}
+            .software-name {{
+                font-size: 24px;
+            }}
+            .download-btn {{
+                padding: 15px 30px;
+                font-size: 16px;
+                min-width: 180px;
+            }}
         }}
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="software-header">
-            <div class="software-image">
-                {f'<img src="{image_url}" alt="{software_name}" onerror="this.parentElement.innerHTML=\'<div class=\\\"placeholder-image\\\">📱<br>Software<br>Icon</div>\'">' if image_url else '<div class="placeholder-image">📱<br>Software<br>Icon</div>'}
-            </div>
-            <div class="software-info">
-                <div class="software-name">{software_name}</div>
-                {f'<div class="software-description">{description}</div>' if description else ''}
-            </div>
+        <div class="software-image">
+            {f'<img src="{image_url}" alt="{software_name}" onerror="this.parentElement.innerHTML=\'<div class=\\\"placeholder-image\\\">📱</div>\'">' if image_url else '<div class="placeholder-image">📱</div>'}
         </div>
+        
+        <div class="software-name">{software_name}</div>
+        {f'<div class="software-description">{description}</div>' if description else ''}
         
         <div class="version-info">
             {f'<p><strong>Version:</strong> {version_info}</p>' if version_info else ''}
@@ -301,7 +322,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
         </div>
         
         <a href="{download_url}" class="download-btn" target="_blank">
-            📥 Download Now
+            <span class="download-icon">📥</span>Download Now
         </a>
     </div>
 </body>
