@@ -805,8 +805,8 @@ def create_main_download_page():
             let visibleCount = 0;
             
             for (let card of cards) {{
-                const name = card.getAttribute('data-name');
-                if (name.includes(filter)) {{
+                const searchData = card.getAttribute('data-search');
+                if (searchData && searchData.includes(filter)) {{
                     card.style.display = 'block';
                     visibleCount++;
                 }} else {{
@@ -846,8 +846,21 @@ def create_main_download_page():
         image_url = first_file.get('image_url', '')
         description = first_file.get('description', '')
         
+        # 收集所有版本信息和简介用于搜索
+        all_version_info = []
+        all_descriptions = []
+        for file_info in item['files']:
+            version_text = f"{file_info.get('version_info', '')} {file_info.get('install_mode', '')}".strip()
+            if version_text:
+                all_version_info.append(version_text)
+            if file_info.get('description'):
+                all_descriptions.append(file_info.get('description'))
+        
+        # 合并搜索数据
+        search_data = f"{item['name'].lower()} {' '.join(all_version_info)} {' '.join(all_descriptions)}".lower()
+        
         html_content += f"""
-                <div class="download-card" data-name="{item['name'].lower()}">
+                <div class="download-card" data-name="{item['name'].lower()}" data-search="{search_data}">
                     <div class="card-header">
                         {f'''
                         <div class="software-icon">
