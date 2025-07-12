@@ -12,7 +12,7 @@ adobe_patterns = [
     r'dimension', r'substance', r'fresco', r'media[- ]?encoder',
     r'acrobat[- ]?pro[- ]?dc', r'acrobat[- ]?reader[- ]?dc', r'incopy',
     r'genp[- ]?universal[- ]?patch', r'premiere[- ]?pro', r'altium[- ]?designer',
-    r'acrobat[- ]?classic', r'character[- ]?animator', r'videdit'
+    r'acrobat[- ]?classic', r'character[- ]?animator' 
 ]
 year_pattern = r'(20(1[9]|2[0-6]))'  # 2019-2026
 product_year_regex = re.compile(
