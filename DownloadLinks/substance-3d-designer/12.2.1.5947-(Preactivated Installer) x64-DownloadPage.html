@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Link</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .header h1 {
+            color: white;
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .software-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .software-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .software-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            margin: 0 auto 30px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .software-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .software-name {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+        .software-description {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .software-body {
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .info-section {
+            margin-bottom: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .info-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            text-align: center;
+            flex: 1;
+            max-width: 250px;
+        }
+        .info-item h3 {
+            color: #495057;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .info-item p {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .download-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            border: 2px solid #e9ecef;
+        }
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 22px 60px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
+            min-width: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .download-btn:hover::before {
+            left: 100%;
+        }
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 45px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .placeholder-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 35px;
+        }
+        .download-icon {
+            margin-right: 12px;
+            font-size: 24px;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            .software-header {
+                padding: 40px 30px;
+            }
+            .software-name {
+                font-size: 28px;
+            }
+            .software-body {
+                padding: 40px 30px;
+            }
+            .download-btn {
+                padding: 20px 50px;
+                font-size: 20px;
+                min-width: 250px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="header">
+        <h1>Software Download</h1>
+    </div>
+    
+    <div class="main-content">
+        <div class="software-card">
+            <div class="software-header">
+                
+                <div class="software-image">
+                    <img src='https://www.cybermania.ws/wp-content/uploads/Adobe3DDesigner.png' alt='Substance 3D Designer' />
+                </div>
+                
+                <div class="software-name">Substance 3D Designer</div>
+                <div class="software-description">With Substance 3D Designer, create seamless materials and patterns, image filters, environment lights, or even 3D models. Each asset can output infinite variations.</div>
+            </div>
+            
+            <div class="software-body">
+                <div class="info-section">
+                    
+                    <div class="info-item">
+                        <h3>Version</h3>
+                        <p>12.2.1.5947</p>
+                    </div>
+                    
+                    
+                    <div class="info-item">
+                        <h3>Install Mode</h3>
+                        <p>(Preactivated Installer) x64</p>
+                    </div>
+                    
+                </div>
+                
+                <div class="download-section">
+                    <a href="https://www.mediafire.com/file/e2p0a98b4qbxbnn/AdobeSubstance3DDesigner12.2.1.5947x64.7z/file" class="download-btn" target="_blank">
+                        <span class="download-icon">📥</span>Download Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Adobe GenP Downloads | Professional software for creative professionals</p>
+    </div>
+</body>
+</html>

@@ -79,15 +79,47 @@
         }
         .card-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
+        }
+        .software-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .software-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .software-icon .placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        .software-info {
+            flex: 1;
         }
         .software-name {
             font-size: 1.3em;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 5px;
+        }
+        .software-description {
+            font-size: 0.9em;
+            color: #6c757d;
+            line-height: 1.4;
+            margin-bottom: 8px;
         }
         .file-count {
             background: #e9ecef;
@@ -179,6 +211,32 @@
             }
         }
     </style>
+    <script>
+        function filterSoftware() {
+            const input = document.getElementById('searchInput');
+            const grid = document.getElementById('downloadGrid');
+            const noResults = document.getElementById('noResults');
+            const filter = input.value.toLowerCase();
+            const cards = grid.getElementsByClassName('download-card');
+            let visibleCount = 0;
+            
+            for (let card of cards) {
+                const name = card.getAttribute('data-name');
+                if (name.includes(filter)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+            
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -187,8 +245,8 @@
             <p>Professional design software, one-click download, easy to get</p>
         </div>
         <div class="stats">
-            <span>Files: <strong>53</strong></span>
-            <span>UpdateTime: <strong>2025-07-12 16:11</strong></span>
+            <span>Files: <strong>105</strong></span>
+            <span>UpdateTime: <strong>2025-07-12 17:44</strong></span>
         </div>
         <div class="content">
             <div class="search-box">
@@ -196,10 +254,152 @@
             </div>
             <div class="download-grid" id="downloadGrid">
 
+                <div class="download-card" data-name="12 photoshop actions the dark earth ps">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">12 Photoshop Actions The Dark Earth Ps</div>
+                            <div class="software-description">It is our pleasure to see you at Prettty Gallery Store!</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">12 Photoshop Actions, the Dark Earth Ps (Retail)</div>
+                            <a href="./DownloadLinks/12-photoshop-actions-the-dark-earth-ps/12 Photoshop Actions, the Dark Earth Ps-(Retail)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="acrobat classic 24">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Acrobat Classic 24</div>
+                            <div class="software-description">Acrobat Classic is the latest desktop-only, non-subscription version of Acrobat.</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.001.30246 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/acrobat-classic-24/24.001.30246-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="acrobat pro 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Acrobat Pro 2020</div>
+                            <div class="software-description">Acrobat 2020is the latest perpetual desktop version of Acrobat. It simplifies everyday PDF tasks and...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">2020.1.30010 (Cracked Silent Install Repack) x86</div>
+                            <a href="./DownloadLinks/acrobat-pro-2020/2020.1.30010-(Cracked Silent Install Repack) x86-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="acrobat pro dc">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Acrobat Pro Dc</div>
+                            <div class="software-description">Adobe Acrobat Pro DC is the leading PDF converter and much more. Adobe Acrobat Pro DC software lets ...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 (Cracked Silent Install Repack) x86</div>
+                            <a href="./DownloadLinks/acrobat-pro-dc/2025.001.20566-(Cracked Silent Install Repack) x86-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 (Cracked Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/acrobat-pro-dc/2025.001.20566-(Cracked Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="acrobat reader dc">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Acrobat Reader Dc</div>
+                            <div class="software-description">Remark: Auto Update services and task schedule disable and removed. Desktop shortcut removed. Welcom...</div>
+                            <div class="file-count">5 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 (Silent Install Repack) Chinese 中文版 x64 Win 10/11</div>
+                            <a href="./DownloadLinks/acrobat-reader-dc/2025.001.20566-(Silent Install Repack) Chinese 中文版 x64 Win 10_11-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 (Silent Install Repack) English x86</div>
+                            <a href="./DownloadLinks/acrobat-reader-dc/2025.001.20566-(Silent Install Repack) English x86-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 Adobe Acrobat Reader DC 2023.003.20284 macOS</div>
+                            <a href="./DownloadLinks/acrobat-reader-dc/2025.001.20566-Adobe Acrobat Reader DC 2023.003.20284 macOS-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 (Silent Install Repack) English x64  Win 10/11</div>
+                            <a href="./DownloadLinks/acrobat-reader-dc/2025.001.20566-(Silent Install Repack) English x64  Win 10_11-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">2025.001.20566 (Silent Install Repack) Chinese 中文版 x86</div>
+                            <a href="./DownloadLinks/acrobat-reader-dc/2025.001.20566-(Silent Install Repack) Chinese 中文版 x86-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="adobe genp">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Adobe Genp</div>
+                            <div class="software-description">Adobe universal patch. Can patch 2019/2020/2021 adobe product.</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -222,10 +422,61 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="after effects 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">After Effects 2020</div>
+                            <div class="software-description">Make a big scene bigger. Create cinematic movie titles, intros, and transitions. Start a fire or mak...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">17.7.0.45 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/after-effects-2020/17.7.0.45-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="after effects 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">After Effects 2021</div>
+                            <div class="software-description">Make a big scene bigger. Create cinematic movie titles, intros, and transitions. Start a fire or mak...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">18.4.1.4 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/after-effects-2021/18.4.1.4-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">18.4.1.4 Adobe After Effects 2021 v18.4.1.4 x64 (macOS)</div>
+                            <a href="./DownloadLinks/after-effects-2021/18.4.1.4-Adobe After Effects 2021 v18.4.1.4 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="after effects 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">After Effects 2022</div>
+                            <div class="software-description">Adobe After Effects 2022 software is the industry-leading solution for creating sophisticated motion...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -243,8 +494,10 @@
 
                 <div class="download-card" data-name="after effects 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">After Effects 2023</div>
+                            <div class="software-description">Make a big scene bigger. Create cinematic movie titles, intros, and transitions. Remove an object fr...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -262,8 +515,10 @@
 
                 <div class="download-card" data-name="after effects 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">After Effects 2024</div>
+                            <div class="software-description">Make a big scene bigger. Create cinematic movie titles, intros, and transitions. Remove an object fr...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -288,8 +543,10 @@
 
                 <div class="download-card" data-name="after effects 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">After Effects 2025</div>
+                            <div class="software-description">Make a big scene bigger. Create cinematic movie titles, intros, and transitions. Remove an object fr...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -307,8 +564,10 @@
 
                 <div class="download-card" data-name="ags disabler disable adobe genuine software">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Ags Disabler Disable Adobe Genuine Software</div>
+                            <div class="software-description">The Adobe Suite is one of the most complete packages for you to edit video or photos. However, recen...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -324,10 +583,82 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="altium designer">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Altium Designer</div>
+                            <div class="software-description">Altium Designer for Windows PC provides electronic designers and engineers with a unified applicatio...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20 (Installer with activator) x64</div>
+                            <a href="./DownloadLinks/altium-designer/20-(Installer with activator) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="animate 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Animate 2020</div>
+                            <div class="software-description">A new age for animation. Design interactive vector and bitmap animations for games, apps, and the we...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20.5.1.31044 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/animate-2020/20.5.1.31044-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="animate 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Animate 2021</div>
+                            <div class="software-description">A new age for animation. Design interactive vector and bitmap animations for games, apps, and the we...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">21.0.9.42677 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/animate-2021/21.0.9.42677-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">21.0.9.42677 Adobe Animate 2021 v21.0.7.42652 x64 (macOS)</div>
+                            <a href="./DownloadLinks/animate-2021/21.0.9.42677-Adobe Animate 2021 v21.0.7.42652 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="animate 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Animate 2022</div>
+                            <div class="software-description">Adobe Animate 2022 (formerly Adobe Flash Professional) allows you to create the interactive animatio...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -345,8 +676,10 @@
 
                 <div class="download-card" data-name="animate 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Animate 2023</div>
+                            <div class="software-description">A new age for animation. Design interactive vector and bitmap animations for games, apps, and the we...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -371,8 +704,10 @@
 
                 <div class="download-card" data-name="animate 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Animate 2024</div>
+                            <div class="software-description">A new age for animation. Design interactive vector and bitmap animations for games, apps, and the we...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -386,8 +721,57 @@
                         </div>
 
                         <div class="download-item">
-                            <div class="version-info">24.0.9.74 (CyberMania Silent Install Repack) x64 Temp Drive</div>
+                            <div class="version-info">Standard </div>
                             <a href="./DownloadLinks/animate-2024/24.0.9.74-(CyberMania Silent Install Repack) x64 Temp Drive-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="audition 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Audition 2020</div>
+                            <div class="software-description">Adobe Audition CC. A professional audio workstation. Create, mix, and design sound effects with the ...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">13.0.13.46 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/audition-2020/13.0.13.46-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="audition 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Audition 2021</div>
+                            <div class="software-description">Adobe Audition CC. A professional audio workstation. Create, mix, and design sound effects with the ...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">14.4.0.38 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/audition-2021/14.4.0.38-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">14.4.0.38 Adobe Audition 2021 v14.2.0.34 x64 (macOS)</div>
+                            <a href="./DownloadLinks/audition-2021/14.4.0.38-Adobe Audition 2021 v14.2.0.34 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
                                 📥 Download
                             </a>
                         </div>
@@ -397,8 +781,10 @@
 
                 <div class="download-card" data-name="audition 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Audition 2022</div>
+                            <div class="software-description">Adobe Audition 2022 offers high-performance, intuitive tools for audio editing, restoration, mixing,...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -423,8 +809,10 @@
 
                 <div class="download-card" data-name="audition 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Audition 2023</div>
+                            <div class="software-description">Adobe Audition. A professional audio workstation. Create, mix, and design sound effects with the ind...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -449,8 +837,10 @@
 
                 <div class="download-card" data-name="audition 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Audition 2024</div>
+                            <div class="software-description">Adobe Audition. A professional audio workstation. Create, mix, and design sound effects with the ind...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -468,8 +858,10 @@
 
                 <div class="download-card" data-name="audition 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Audition 2025</div>
+                            <div class="software-description">Adobe Audition. A professional audio workstation. Create, mix, and design sound effects with the ind...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -485,10 +877,40 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="bridge 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Bridge 2021</div>
+                            <div class="software-description">Bridge is a powerful creative asset manager that lets you preview, organize, edit, and publish multi...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">11.1.1.185 Adobe Bridge 2021 v11.1.1.185 x64 (macOS)</div>
+                            <a href="./DownloadLinks/bridge-2021/11.1.1.185-Adobe Bridge 2021 v11.1.1.185 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">11.1.1.185 (Installer with crack) x64</div>
+                            <a href="./DownloadLinks/bridge-2021/11.1.1.185-(Installer with crack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="bridge 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Bridge 2022</div>
+                            <div class="software-description">Bridge is a powerful creative asset manager that lets you preview, organize, edit, and publish multi...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -506,8 +928,10 @@
 
                 <div class="download-card" data-name="bridge 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Bridge 2023</div>
+                            <div class="software-description">Bridge gives you centralized access to all the files and assets you need for your creative projects....</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -532,8 +956,10 @@
 
                 <div class="download-card" data-name="bridge 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Bridge 2024</div>
+                            <div class="software-description">Bridge gives you centralized access to all the files and assets you need for your creative projects....</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -551,8 +977,10 @@
 
                 <div class="download-card" data-name="bridge 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Bridge 2025</div>
+                            <div class="software-description">Adobe Bridge gives you centralized access to all the files and assets you need for your creative pro...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -568,10 +996,61 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="character animator 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Character Animator 2020</div>
+                            <div class="software-description">Animate in real time. Really. Create a character and animate it with your own performance. Character...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">3.5.0.144 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/character-animator-2020/3.5.0.144-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="character animator 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Character Animator 2021</div>
+                            <div class="software-description">Animate in real time. Really. Create a character and animate it with your own performance. Character...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">4.4.0.44 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/character-animator-2021/4.4.0.44-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">4.4.0.44 Adobe Character Animator 2021 v4.4.0.44 x64 (macOS)</div>
+                            <a href="./DownloadLinks/character-animator-2021/4.4.0.44-Adobe Character Animator 2021 v4.4.0.44 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="character animator 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Character Animator 2022</div>
+                            <div class="software-description">Adobe Character Animator 2022 will help you to create a 2D character and make it come alive. The sof...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -589,8 +1068,10 @@
 
                 <div class="download-card" data-name="character animator 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Character Animator 2023</div>
+                            <div class="software-description">Animate in real time. Really. Create a character and animate it with your own performance. Character...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -615,8 +1096,10 @@
 
                 <div class="download-card" data-name="character animator 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Character Animator 2024</div>
+                            <div class="software-description">Animate in real time. Really. Create a character and animate it with your own performance. Character...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -634,8 +1117,10 @@
 
                 <div class="download-card" data-name="character animator 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Character Animator 2025</div>
+                            <div class="software-description">Animate in real time. Really. Create a character and animate it with your own performance. Character...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -651,10 +1136,82 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="dehancer film 2 0 0 for photoshop lightroom">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Dehancer Film 2 0 0 For Photoshop Lightroom</div>
+                            <div class="software-description">Dehancer Film for Lightroom and Photoshopgives digital images the look and feel of classic analog fi...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">Dehancer Film 2.5.0 for Photoshop & Lightroom (Registered Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/dehancer-film-2-0-0-for-photoshop-lightroom/Dehancer Film 2.5.0 for Photoshop & Lightroom-(Registered Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="dehancer pro for premiere pro after effects">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Dehancer Pro For Premiere Pro After Effects</div>
+                            <div class="software-description">You asked, we listened! Now Premiere Pro and After Effects users can fully enjoy 60+ film profiles a...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">Dehancer Pro 7.1.1 for Premiere Pro & After Effects (Precracked Installer) x64</div>
+                            <a href="./DownloadLinks/dehancer-pro-for-premiere-pro-after-effects/Dehancer Pro 7.1.1 for Premiere Pro & After Effects-(Precracked Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="dimension">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Dimension</div>
+                            <div class="software-description">Create product mockups, brand visualizations, packaging designs, and more with easy 3D tools. With A...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">3.4.5.4032 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/dimension/3.4.5.4032-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">3.4.5.4032 Adobe Dimension v3.4.3.4022 x64 (macOS)</div>
+                            <a href="./DownloadLinks/dimension/3.4.5.4032-Adobe Dimension v3.4.3.4022 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="disable adobe genuine software integrity service">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Disable Adobe Genuine Software Integrity Service</div>
+                            <div class="software-description">Adobe’s Software Integrity Service periodically validates already installed Adobe Software. If it fi...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -670,10 +1227,33 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="dreamweaver 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Dreamweaver 2020</div>
+                            <div class="software-description">Adobe Dreamweaver is the industry-leading web authoring and editing software that provides both visu...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20.2.1.15271 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/dreamweaver-2020/20.2.1.15271-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="dreamweaver 2021">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Dreamweaver 2021</div>
+                            <div class="software-description">Adobe Dreamweaver 2021 v21.1.0.15413 x64 (macOS)</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -696,10 +1276,54 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="filmconvert nitrate 3 0 2 for after effects premiere pro">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Filmconvert Nitrate 3 0 2 For After Effects Premiere Pro</div>
+                            <div class="software-description">FilmConvert introduces Nitrate for After Effects & Premiere Pro. Anew set of features to give you ev...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">FilmConvert Nitrate 3.0.2 for After Effects & Premiere Pro (Preactivated Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/filmconvert-nitrate-3-0-2-for-after-effects-premiere-pro/FilmConvert Nitrate 3.0.2 for After Effects & Premiere Pro-(Preactivated Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="fresco">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Fresco</div>
+                            <div class="software-description">New features and enhancements</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">2.6.0.515 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/fresco/2.6.0.515-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="genp universal patch">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Genp Universal Patch</div>
+                            <div class="software-description">Adobe universal patch. Can patch 2019/2020/2021 adobe product.</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -722,10 +1346,75 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="illustrator 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Illustrator 2020</div>
+                            
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">24.3.0.569 (Preactivate Installer) x64</div>
+                            <a href="./DownloadLinks/illustrator-2020/24.3.0.569-(Preactivate Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">24.3.0.569 (Silent Install Repack) All language (Without Adobe Stupid Services) x64</div>
+                            <a href="./DownloadLinks/illustrator-2020/24.3.0.569-(Silent Install Repack) All language (Without Adobe Stupid Services) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="illustrator 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Illustrator 2021</div>
+                            <div class="software-description">Adobe Illustrator 2021 software is the industry standard vector-drawing environment for designing ac...</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">25.4.1.498 (CyberMania Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/illustrator-2021/25.4.1.498-(CyberMania Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">25.4.1.498 (Preactivated Installer) x64 @vposy</div>
+                            <a href="./DownloadLinks/illustrator-2021/25.4.1.498-(Preactivated Installer) x64 @vposy-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">25.4.1.498 Adobe Illustrator 2021 v25.4.1.498 x64 (macOS)</div>
+                            <a href="./DownloadLinks/illustrator-2021/25.4.1.498-Adobe Illustrator 2021 v25.4.1.498 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="illustrator 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Illustrator 2022</div>
+                            <div class="software-description">Adobe Illustrator 2022 software is the industry standard vector-drawing environment for designing ac...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -750,8 +1439,10 @@
 
                 <div class="download-card" data-name="illustrator 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Illustrator 2023</div>
+                            <div class="software-description">The industry-standard vector graphics software lets you create logos, icons, drawings, typography, a...</div>
                             <div class="file-count">3 Versions</div>
                         </div>
                     </div>
@@ -783,8 +1474,10 @@
 
                 <div class="download-card" data-name="illustrator 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Illustrator 2024</div>
+                            <div class="software-description">The industry-standard vector graphics software lets you create logos, icons, drawings, typography, a...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -802,8 +1495,10 @@
 
                 <div class="download-card" data-name="illustrator 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Illustrator 2025</div>
+                            <div class="software-description">The industry-standard vector graphics software lets you create logos, icons, drawings, typography, a...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -819,10 +1514,89 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="illustrator cc 2019 23 1 0 670">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Illustrator Cc 2019 23 1 0 670</div>
+                            <div class="software-description">Adobe Illustrator CC  is the industry-standard vector graphics software lets you create logos, icons...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">23.1.0.670 32 Bit</div>
+                            <a href="./DownloadLinks/illustrator-cc-2019-23-1-0-670/23.1.0.670-32 Bit-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">23.1.0.670 64 Bit</div>
+                            <a href="./DownloadLinks/illustrator-cc-2019-23-1-0-670/23.1.0.670-64 Bit-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="incopy 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Incopy 2020</div>
+                            <div class="software-description">InCopy lets copywriters and editors style text, track changes, and make simple layout modifications ...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">15.1.2.226 (Activated Installer) x64</div>
+                            <a href="./DownloadLinks/incopy-2020/15.1.2.226-(Activated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="incopy 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Incopy 2021</div>
+                            <div class="software-description">InCopy lets copywriters and editors style text, track changes, and make simple layout modifications ...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">16.4.0.055 Adobe InCopy 2021 v16.4.0.054 x64 (macOS)</div>
+                            <a href="./DownloadLinks/incopy-2021/16.4.0.055-Adobe InCopy 2021 v16.4.0.054 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">16.4.0.055 (Activated Installer) x64</div>
+                            <a href="./DownloadLinks/incopy-2021/16.4.0.055-(Activated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="incopy 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Incopy 2022</div>
+                            <div class="software-description">Adobe InCopy 2022 software is a professional writing and editing solution, that tightly integrates w...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -840,8 +1614,10 @@
 
                 <div class="download-card" data-name="incopy 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Incopy 2023</div>
+                            <div class="software-description">InCopy. Collaborate with copywriters and editors. InCopy lets copywriters and editors style text, tr...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -859,8 +1635,10 @@
 
                 <div class="download-card" data-name="incopy 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Incopy 2024</div>
+                            <div class="software-description">InCopy. Collaborate with copywriters and editors. InCopy lets copywriters and editors style text, tr...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -878,8 +1656,10 @@
 
                 <div class="download-card" data-name="incopy 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Incopy 2025</div>
+                            <div class="software-description">InCopy. Collaborate with copywriters and editors. InCopy lets copywriters and editors style text, tr...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -895,10 +1675,61 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="indesign 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Indesign 2020</div>
+                            <div class="software-description">Standout layouts. Only with InDesign. InDesign is the industry-leading layout and page design softwa...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">15.1.2.226 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/indesign-2020/15.1.2.226-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="indesign 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Indesign 2021</div>
+                            <div class="software-description">Standout layouts. Only with InDesign. InDesign is the industry-leading layout and page design softwa...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">16.4.0.055 Adobe InDesign 2021 v16.4.0.054 x64 (macOS)</div>
+                            <a href="./DownloadLinks/indesign-2021/16.4.0.055-Adobe InDesign 2021 v16.4.0.054 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">16.4.0.055 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/indesign-2021/16.4.0.055-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="indesign 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Indesign 2022</div>
+                            <div class="software-description">Adobe InDesign 2022 software provides precise control over typography and built-in creative tools fo...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -916,8 +1747,10 @@
 
                 <div class="download-card" data-name="indesign 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Indesign 2023</div>
+                            <div class="software-description">Standout layouts. Only with InDesign. InDesign is the industry-leading layout and page design softwa...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -935,8 +1768,10 @@
 
                 <div class="download-card" data-name="indesign 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Indesign 2024</div>
+                            <div class="software-description">Standout layouts. Only with InDesign. InDesign is the industry-leading layout and page design softwa...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -954,8 +1789,10 @@
 
                 <div class="download-card" data-name="indesign 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Indesign 2025</div>
+                            <div class="software-description">Standout layouts. Only with InDesign. InDesign is the industry-leading layout and page design softwa...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -971,10 +1808,61 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="media encoder 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Media Encoder 2020</div>
+                            <div class="software-description">This powerful media management tool Adobe Media Encoder allows you to work with media in a unified w...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">14.9.0.48 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/media-encoder-2020/14.9.0.48-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="media encoder 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Media Encoder 2021</div>
+                            <div class="software-description">This powerful media management tool Adobe Media Encoder allows you to work with media in a unified w...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">15.4.1.5 Adobe Media Encoder 2021 v15.4.1.5 x64 (macOS)</div>
+                            <a href="./DownloadLinks/media-encoder-2021/15.4.1.5-Adobe Media Encoder 2021 v15.4.1.5 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">15.4.1.5 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/media-encoder-2021/15.4.1.5-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="media encoder 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Media Encoder 2022</div>
+                            <div class="software-description">Ingest, transcode, create proxies, and output to almost any format you can imagine. Automate your wo...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -992,8 +1880,10 @@
 
                 <div class="download-card" data-name="media encoder 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Media Encoder 2023</div>
+                            <div class="software-description">Ingest, transcode, create proxies, and output any format you can imagine. This powerful media manage...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -1018,8 +1908,10 @@
 
                 <div class="download-card" data-name="media encoder 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Media Encoder 2024</div>
+                            <div class="software-description">Ingest, transcode, create proxies, and output any format you can imagine. This powerful media manage...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1037,8 +1929,10 @@
 
                 <div class="download-card" data-name="media encoder 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Media Encoder 2025</div>
+                            <div class="software-description">Ingest, transcode, create proxies, and output any format you can imagine. This powerful media manage...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1054,10 +1948,82 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="mobglow photoshop plugin">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Mobglow Photoshop Plugin</div>
+                            <div class="software-description">mobGlow plugin for Adobe Photoshop lets you create photorealistic physically correct glow based on i...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">1.0.1 (Preactivated Installer)</div>
+                            <a href="./DownloadLinks/mobglow-photoshop-plugin/1.0.1-(Preactivated Installer)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop 2020</div>
+                            <div class="software-description">Reimagine reality with Photoshop. Millions of designers, photographers, and artists around the world...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">21.2.12.215 (Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-2020/21.2.12.215-(Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">21.2.12.215 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/photoshop-2020/21.2.12.215-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop 2020 21 2 24 323 win 7">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop 2020 21 2 24 323 Win 7</div>
+                            <div class="software-description">Reimagine reality with Photoshop. Millions of designers, photographers, and artists around the world...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">Photoshop 2020 21.2.24.323 (Win 7) (Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-2020-21-2-24-323-win-7/Photoshop 2020 21.2.24.323 (Win 7)-(Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="photoshop 2021">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop 2021</div>
+                            <div class="software-description">Adobe Photoshop – the essential software for perfecting your images. It offers productivity and work...</div>
                             <div class="file-count">3 Versions</div>
                         </div>
                     </div>
@@ -1089,8 +2055,10 @@
 
                 <div class="download-card" data-name="photoshop 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop 2024</div>
+                            <div class="software-description">Reimagine reality with Photoshop. Millions of designers, photographers, and artists around the world...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -1115,8 +2083,10 @@
 
                 <div class="download-card" data-name="photoshop 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop 2025</div>
+                            <div class="software-description">Reimagine reality with Photoshop. Millions of designers, photographers, and artists around the world...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1132,10 +2102,131 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="photoshop cc 2015 lite">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Cc 2015 Lite</div>
+                            <div class="software-description">Adobe Photoshop CC 2015 – the essential software for perfecting your images, offers productivity and...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">16.0.1.168 (Cracked Silent Repack)</div>
+                            <a href="./DownloadLinks/photoshop-cc-2015-lite/16.0.1.168-(Cracked Silent Repack)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop cc 2018">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Cc 2018</div>
+                            <div class="software-description">Adobe Photoshop CC 2018 – the essential software for perfecting your images. It offers productivity ...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">19.1.9.27702 (Cracked Silent Repack 32Bit) Multilanguage</div>
+                            <a href="./DownloadLinks/photoshop-cc-2018/19.1.9.27702-(Cracked Silent Repack 32Bit) Multilanguage-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">19.1.9.27702 (Cracked Silent Repack 64Bit) Multilanguage</div>
+                            <a href="./DownloadLinks/photoshop-cc-2018/19.1.9.27702-(Cracked Silent Repack 64Bit) Multilanguage-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop cc 2019">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Cc 2019</div>
+                            <div class="software-description">Adobe Photoshop CC 2019 – the essential software for perfecting your images. It offers productivity ...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20.0.10.28848 (Preactivated installer all language with camera raw)</div>
+                            <a href="./DownloadLinks/photoshop-cc-2019/20.0.10.28848-(Preactivated installer all language with camera raw)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">20.0.10.28848 (Cracked Silent Install Repack X64 Only) Multilanguage</div>
+                            <a href="./DownloadLinks/photoshop-cc-2019/20.0.10.28848-(Cracked Silent Install Repack X64 Only) Multilanguage-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop cs4 lite">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Cs4 Lite</div>
+                            <div class="software-description">Simply click and drag to turn your canvas for distortion-free viewing at any angle. Gracefully navig...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">Photoshop CS4 Lite (Cracked Silent Repack) x86</div>
+                            <a href="./DownloadLinks/photoshop-cs4-lite/Photoshop CS4 Lite-(Cracked Silent Repack) x86-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop elements 2022">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Elements 2022</div>
+                            <div class="software-description">Photoshop Elements software is simple and elegant for managing and editing images is Adobe. Adobe Ph...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20.0.0.202 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/photoshop-elements-2022/20.0.0.202-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="photoshop lightroom 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop Lightroom 2024</div>
+                            <div class="software-description">Adobe’s Photoshop software for photo editing expert manner and schedule Bridge to manage and organiz...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1153,8 +2244,10 @@
 
                 <div class="download-card" data-name="photoshop lightroom 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop Lightroom 2025</div>
+                            <div class="software-description">Adobe’s Photoshop software for photo editing expert manner and schedule Bridge to manage and organiz...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1170,10 +2263,117 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="photoshop lightroom 6 0">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Lightroom 6 0</div>
+                            <div class="software-description">Adobe’s Photoshop software for photo editing expert manner and schedule Bridge to manage and organiz...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">6.0 (Installer with crack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-6-0/6.0-(Installer with crack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Lightroom Classic 2020</div>
+                            <div class="software-description">With Adobe Photoshop Lightroom Classic CC in panoramic images, the edges can be stretched by edge li...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">9.4.0.10 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2020/9.4.0.10-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">9.4.0.10 (Preactivated Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2020/9.4.0.10-(Preactivated Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Lightroom Classic 2021</div>
+                            <div class="software-description">Adobe Photoshop Lightroom Classic is the professional photographer’s essential software, providing c...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">Photoshop Lightroom Classic 2021 10.0.0.10 (Win 7) (Preactivated Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2021/Photoshop Lightroom Classic 2021 10.0.0.10 (Win 7)-(Preactivated Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="photoshop lightroom classic 2021 10 4 0 10">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Photoshop Lightroom Classic 2021 10 4 0 10</div>
+                            <div class="software-description">Adobe Photoshop Lightroom Classic is the professional photographer’s essential software, providing c...</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">10.4.0.10 Adobe Photoshop Lightroom Classic 2021 v10.3.0 x64 (macOS)</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2021-10-4-0-10/10.4.0.10-Adobe Photoshop Lightroom Classic 2021 v10.3.0 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">10.4.0.10 (Preactivated Installer) x64 @Vposy</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2021-10-4-0-10/10.4.0.10-(Preactivated Installer) x64 @Vposy-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">10.4.0.10 (Preactivated Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/photoshop-lightroom-classic-2021-10-4-0-10/10.4.0.10-(Preactivated Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="photoshop lightroom classic 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop Lightroom Classic 2022</div>
+                            <div class="software-description">Adobe Photoshop Lightroom is the professional photographer’s essential software, providing comprehen...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -1198,8 +2398,10 @@
 
                 <div class="download-card" data-name="photoshop lightroom classic 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop Lightroom Classic 2023</div>
+                            <div class="software-description">Edit and organize your photos with the app that’s optimized for desktop. Lightroom Classic gives you...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -1224,8 +2426,10 @@
 
                 <div class="download-card" data-name="photoshop lightroom classic 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop Lightroom Classic 2024</div>
+                            <div class="software-description">Edit and organize your photos with the app that’s optimized for desktop. Lightroom Classic gives you...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1243,8 +2447,10 @@
 
                 <div class="download-card" data-name="photoshop lightroom classic 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Photoshop Lightroom Classic 2025</div>
+                            <div class="software-description">Edit and organize your photos with the app that’s optimized for desktop. Lightroom Classic gives you...</div>
                             <div class="file-count">1 Version</div>
                         </div>
                     </div>
@@ -1260,10 +2466,89 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="premiere elements 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Premiere Elements 2021</div>
+                            <div class="software-description">Adobe Premiere Elements is a video editing software which is published by Adobe. This small version ...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">20.0.0.118 (Activated Installer) x64</div>
+                            <a href="./DownloadLinks/premiere-elements-2021/20.0.0.118-(Activated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="premiere pro 2020">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Premiere Pro 2020</div>
+                            <div class="software-description">Adobe Premiere Pro 2020 software offers breakthrough performance for video production, enabling you ...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">14.9.0.52 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2020/14.9.0.52-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="premiere pro 2021">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Premiere Pro 2021</div>
+                            <div class="software-description">Adobe Premiere Pro 2021 software offers breakthrough performance for video production, enabling you ...</div>
+                            <div class="file-count">3 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">15.4.1.6 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2021/15.4.1.6-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">15.4.1.6 Adobe Premiere Pro 2021 v15.4.1.6 x64 (macOS)</div>
+                            <a href="./DownloadLinks/premiere-pro-2021/15.4.1.6-Adobe Premiere Pro 2021 v15.4.1.6 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">15.4.1.6 (Silent Install Repack) x64</div>
+                            <a href="./DownloadLinks/premiere-pro-2021/15.4.1.6-(Silent Install Repack) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="download-card" data-name="premiere pro 2022">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Premiere Pro 2022</div>
+                            <div class="software-description">Adobe Premiere Pro 2022 software offers breakthrough performance for video production, enabling you ...</div>
                             <div class="file-count">3 Versions</div>
                         </div>
                     </div>
@@ -1295,8 +2580,10 @@
 
                 <div class="download-card" data-name="premiere pro 2023">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Premiere Pro 2023</div>
+                            <div class="software-description">Video editing that’s always a cut above. Premiere Pro is the leading video editing software for film...</div>
                             <div class="file-count">3 Versions</div>
                         </div>
                     </div>
@@ -1328,8 +2615,10 @@
 
                 <div class="download-card" data-name="premiere pro 2024">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Premiere Pro 2024</div>
+                            <div class="software-description">Video editing that’s always a cut above. Premiere Pro is the leading video editing software for film...</div>
                             <div class="file-count">3 Versions</div>
                         </div>
                     </div>
@@ -1361,8 +2650,10 @@
 
                 <div class="download-card" data-name="premiere pro 2025">
                     <div class="card-header">
-                        <div>
+                        
+                        <div class="software-info">
                             <div class="software-name">Premiere Pro 2025</div>
+                            <div class="software-description">Video editing that’s always a cut above. Premiere Pro is the leading video editing software for film...</div>
                             <div class="file-count">2 Versions</div>
                         </div>
                     </div>
@@ -1385,6 +2676,167 @@
                     </div>
                 </div>
 
+                <div class="download-card" data-name="premiererush">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Premiererush</div>
+                            
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">1.5.58.64 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/premiererush/1.5.58.64-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="retouch pro for adobe photoshop">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Retouch Pro For Adobe Photoshop</div>
+                            
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">2.0.3 (Retail Silent Install Repack) x86 2.0.3</div>
+                            <a href="./DownloadLinks/retouch-pro-for-adobe-photoshop/2.0.3-(Retail Silent Install Repack) x86 2.0.3-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">2.0.3 (Retail Silent Install Repack) x86 3.0.1</div>
+                            <a href="./DownloadLinks/retouch-pro-for-adobe-photoshop/2.0.3-(Retail Silent Install Repack) x86 3.0.1-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="substance 3d designer">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Substance 3D Designer</div>
+                            <div class="software-description">With Substance 3D Designer, create seamless materials and patterns, image filters, environment light...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">12.2.1.5947 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/substance-3d-designer/12.2.1.5947-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="substance 3d painter">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Substance 3D Painter</div>
+                            <div class="software-description">Substance 3D Painter has the tools you need to texture your 3D assets, from advanced brushes to Smar...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">8.1.3.1860 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/substance-3d-painter/8.1.3.1860-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="substance 3d sampler">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Substance 3D Sampler</div>
+                            <div class="software-description">Substance 3D Sampler is at the heart of your 3D workflow. Easily transform a real-life picture into ...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">3.4.0.2230 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/substance-3d-sampler/3.4.0.2230-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="substance 3d stager">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Substance 3D Stager</div>
+                            <div class="software-description">Substance 3D Stager lets you make creative decisions in context. Refine and adjust your composition ...</div>
+                            <div class="file-count">1 Version</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">1.2.3.5275 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/substance-3d-stager/1.2.3.5275-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="download-card" data-name="xd">
+                    <div class="card-header">
+                        
+                        <div class="software-info">
+                            <div class="software-name">Xd</div>
+                            <div class="software-description">Adobe XD is a powerful, collaborative, easy-to-use platform that helps you and your team create desi...</div>
+                            <div class="file-count">2 Versions</div>
+                        </div>
+                    </div>
+                    <div class="download-links">
+
+                        <div class="download-item">
+                            <div class="version-info">58.0.12.9 Adobe XD v41.1.12 x64 (macOS)</div>
+                            <a href="./DownloadLinks/xd/58.0.12.9-Adobe XD v41.1.12 x64 (macOS)-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                        <div class="download-item">
+                            <div class="version-info">58.0.12.9 (Preactivated Installer) x64</div>
+                            <a href="./DownloadLinks/xd/58.0.12.9-(Preactivated Installer) x64-DownloadPage.html" class="download-btn" target="_blank">
+                                📥 Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
             <div class="no-results" id="noResults" style="display: none;">
                 No results found
@@ -1394,39 +2846,5 @@
             <p>© 2025 Adobe GenP Downloads | All software is from the network, for learning only</p>
         </div>
     </div>
-    <script>
-        function filterSoftware() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.download-card');
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
-            cards.forEach(card => {
-                const softwareName = card.getAttribute('data-name');
-                if (softwareName.includes(searchTerm)) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            if (visibleCount === 0) {
-                noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.download-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    card.style.transition = 'all 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        });
-    </script>
 </body>
 </html>
