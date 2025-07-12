@@ -20,7 +20,7 @@ Professional Adobe software download center with automatic updates.
 
 ## 🚀 Recent Updates
 
-### 2025-01-27
+### 2025-07-13
 - **🔧 修复版本信息显示问题**
   - 修复了index页面中version-info显示为"Standard"的问题
   - 正确提取和显示版本号和安装模式信息
@@ -46,7 +46,7 @@ Professional Adobe software download center with automatic updates.
   - 支持如`acrobat-pro-dc`这样的链接格式
   - 修复了链接验证逻辑
 
-### 2025-01-26
+### 2025-07-12
 - **🎨 重新设计下载页面布局**
   - 采用完全居中的分层结构设计
   - 优化了信息重心平衡
