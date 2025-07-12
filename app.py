@@ -9,7 +9,10 @@ from datetime import datetime
 adobe_patterns = [
     r'photoshop', r'lightroom', r'illustrator', r'xd', r'premiere', r'after[- ]?effects',
     r'indesign', r'audition', r'animate', r'bridge', r'acrobat', r'dreamweaver',
-    r'dimension', r'substance', r'fresco', r'media[- ]?encoder'
+    r'dimension', r'substance', r'fresco', r'media[- ]?encoder',
+    r'acrobat[- ]?pro[- ]?dc', r'acrobat[- ]?reader[- ]?dc', r'incopy',
+    r'genp[- ]?universal[- ]?patch', r'premiere[- ]?pro', r'altium[- ]?designer',
+    r'acrobat[- ]?classic', r'character[- ]?animator', r'videdit'
 ]
 year_pattern = r'(20(1[9]|2[0-6]))'  # 2019-2026
 product_year_regex = re.compile(
@@ -26,7 +29,8 @@ exclude_links = {
 force_include_links = {
     "https://www.cybermania.ws/cybermania/disable-adobe-genuine-software-integrity-service/",
     "https://www.cybermania.ws/apps/ags-disabler-disable-adobe-genuine-software/",
-    "https://www.cybermania.ws/apps/adobe-genp/"
+    "https://www.cybermania.ws/apps/adobe-genp/",
+    "https://www.cybermania.ws/apps/genp-universal-patch/"
 }
 
 link_prefix = "https://www.cybermania.ws/apps"
@@ -92,6 +96,8 @@ def extract_folder_name(url):
             return "ags-disabler-disable-adobe-genuine-software"
         elif url == "https://www.cybermania.ws/apps/adobe-genp/":
             return "adobe-genp"
+        elif url == "https://www.cybermania.ws/apps/genp-universal-patch/":
+            return "genp-universal-patch"
     if '/apps/' in url:
         return url.split('/apps/')[-1]
     elif '/cybermania/' in url:
