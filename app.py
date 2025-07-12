@@ -20,6 +20,12 @@ product_year_regex = re.compile(
     re.IGNORECASE
 )
 
+# 新增：匹配没有年份的Adobe产品链接
+adobe_product_regex = re.compile(
+    r'(' + '|'.join(adobe_patterns) + r')[\w\-]*',
+    re.IGNORECASE
+)
+
 # Links to exclude
 exclude_links = {
     "https://www.cybermania.ws/apps/",
@@ -49,7 +55,13 @@ def is_valid_adobe_link(href):
         return False
     if "comment-page" in href or "#" in href or href in exclude_links:
         return False
-    return bool(product_year_regex.search(href))
+    # 检查是否有年份的产品链接
+    if product_year_regex.search(href):
+        return True
+    # 检查没有年份的Adobe产品链接
+    if adobe_product_regex.search(href):
+        return True
+    return False
 
 def get_links_from_page(url):
     response = requests.get(url)
@@ -57,9 +69,12 @@ def get_links_from_page(url):
     soup = BeautifulSoup(response.text, "html.parser")
     links = set()
     for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if is_valid_adobe_link(href):
-            links.add(href)
+        try:
+            href = a["href"]
+            if is_valid_adobe_link(href):
+                links.add(href)
+        except (KeyError, TypeError):
+            continue
     return links, soup
 
 def has_next_page(soup, current_page):
@@ -189,6 +204,13 @@ def find_download_links(soup):
 
 def create_download_html(download_url, version_info="", install_mode="", software_name="Download Link", image_url="", description=""):
     """Create HTML content for download page"""
+    # 先拼好图片HTML，避免f-string嵌套冲突
+    img_html = (
+        f"<img src='{image_url}' alt='{software_name}' />"
+        if image_url else
+        '<div class="placeholder-image">📱</div>'
+    )
+    js_script = ''
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -278,17 +300,18 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
         }}
         .info-section {{
             margin-bottom: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
         }}
         .info-item {{
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 25px;
             border-radius: 15px;
             border: 1px solid #e9ecef;
-            margin-bottom: 20px;
             text-align: center;
-        }}
-        .info-item:last-child {{
-            margin-bottom: 0;
+            flex: 1;
+            max-width: 250px;
         }}
         .info-item h3 {{
             color: #495057;
@@ -385,6 +408,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
             }}
         }}
     </style>
+    {js_script}
 </head>
 <body>
     <div class="header">
@@ -395,7 +419,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
         <div class="software-card">
             <div class="software-header">
                 <div class="software-image">
-                    {f'<img src="{image_url}" alt="{software_name}" onerror="this.parentElement.innerHTML=\'<div class=\\\"placeholder-image\\\">📱</div>\'">' if image_url else '<div class="placeholder-image">📱</div>'}
+                    {img_html}
                 </div>
                 <div class="software-name">{software_name}</div>
                 {f'<div class="software-description">{description}</div>' if description else ''}
@@ -767,6 +791,32 @@ def create_main_download_page():
             }}
         }}
     </style>
+    <script>
+        function filterSoftware() {{
+            const input = document.getElementById('searchInput');
+            const grid = document.getElementById('downloadGrid');
+            const noResults = document.getElementById('noResults');
+            const filter = input.value.toLowerCase();
+            const cards = grid.getElementsByClassName('download-card');
+            let visibleCount = 0;
+            
+            for (let card of cards) {{
+                const name = card.getAttribute('data-name');
+                if (name.includes(filter)) {{
+                    card.style.display = 'block';
+                    visibleCount++;
+                }} else {{
+                    card.style.display = 'none';
+                }}
+            }}
+            
+            if (visibleCount === 0) {{
+                noResults.style.display = 'block';
+            }} else {{
+                noResults.style.display = 'none';
+            }}
+        }}
+    </script>
 </head>
 <body>
     <div class="container">
@@ -796,7 +846,7 @@ def create_main_download_page():
                 <div class="download-card" data-name="{item['name'].lower()}">
                     <div class="card-header">
                         <div class="software-icon">
-                            {f'<img src="{image_url}" alt="{item["name"]}" onerror="this.parentElement.innerHTML=\'<div class=\\\"placeholder\\\">📱</div>\'">' if image_url else '<div class="placeholder">📱</div>'}
+                            {f'<img src="{image_url}" alt="{item["name"]}">' if image_url else '<div class="placeholder">📱</div>'}
                         </div>
                         <div class="software-info">
                             <div class="software-name">{item['name']}</div>
@@ -831,40 +881,6 @@ def create_main_download_page():
             <p>© 2025 Adobe GenP Downloads | All software is from the network, for learning only</p>
         </div>
     </div>
-    <script>
-        function filterSoftware() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.download-card');
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
-            cards.forEach(card => {
-                const softwareName = card.getAttribute('data-name');
-                if (softwareName.includes(searchTerm)) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            if (visibleCount === 0) {
-                noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.download-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    card.style.transition = 'all 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        });
-    </script>
 </body>
 </html>"""
     with open("index.html", "w", encoding="utf-8") as f:
