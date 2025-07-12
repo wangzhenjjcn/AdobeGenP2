@@ -378,10 +378,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
             color: white;
             font-size: 35px;
         }}
-        .download-icon {{
-            margin-right: 12px;
-            font-size: 24px;
-        }}
+
         .footer {{
             text-align: center;
             padding: 30px;
@@ -445,7 +442,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
                 
                 <div class="download-section">
                     <a href="{download_url}" class="download-btn" target="_blank">
-                        <span class="download-icon">📥</span>Download Now
+                        Download Now
                     </a>
                 </div>
             </div>
@@ -882,7 +879,7 @@ def create_main_download_page():
                         <div class="download-item">
                             <div class="version-info">{version_display} {install_mode_display}</div>
                             <a href="./DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
-                                📥 Download
+                                Download
                             </a>
                         </div>
 """
