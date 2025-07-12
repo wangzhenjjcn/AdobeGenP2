@@ -104,6 +104,26 @@ def extract_folder_name(url):
         return url.split('/cybermania/')[-1]
     return None
 
+def extract_page_info(soup):
+    """Extract software image and description from the page"""
+    image_url = ""
+    description = ""
+    
+    # Find image in post_img div
+    post_img_div = soup.find("div", class_="post_img")
+    if post_img_div:
+        img_tag = post_img_div.find("img")
+        if img_tag and img_tag.get("src"):
+            image_url = str(img_tag["src"])
+    
+    # Find description in the first p tag after post_img div
+    if post_img_div:
+        next_p = post_img_div.find_next_sibling("p")
+        if next_p:
+            description = next_p.get_text(strip=True)
+    
+    return image_url, description
+
 def find_download_links(soup):
     """Find all Download links in the page"""
     download_links = []
@@ -167,7 +187,7 @@ def find_download_links(soup):
             })
     return download_links
 
-def create_download_html(download_url, version_info="", install_mode="", software_name="Download Link"):
+def create_download_html(download_url, version_info="", install_mode="", software_name="Download Link", image_url="", description=""):
     """Create HTML content for download page"""
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -182,42 +202,106 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
             background-color: #f5f5f5;
         }}
         .container {{
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }}
+        .software-header {{
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }}
+        .software-image {{
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }}
+        .software-image img {{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }}
+        .software-info {{
+            flex: 1;
+        }}
+        .software-name {{
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }}
+        .software-description {{
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }}
+        .version-info {{
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }}
+        .version-info p {{
+            margin: 5px 0;
+            color: #555;
+        }}
         .download-btn {{
             display: inline-block;
-            background-color: #007bff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 15px 30px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 18px;
             font-weight: bold;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }}
         .download-btn:hover {{
-            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
         }}
-        .info {{
-            margin-bottom: 20px;
-            color: #666;
+        .placeholder-image {{
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            text-align: center;
         }}
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="info">
-            <h2>{software_name}</h2>
+        <div class="software-header">
+            <div class="software-image">
+                {f'<img src="{image_url}" alt="{software_name}" onerror="this.parentElement.innerHTML=\'<div class=\\\"placeholder-image\\\">📱<br>Software<br>Icon</div>\'">' if image_url else '<div class="placeholder-image">📱<br>Software<br>Icon</div>'}
+            </div>
+            <div class="software-info">
+                <div class="software-name">{software_name}</div>
+                {f'<div class="software-description">{description}</div>' if description else ''}
+            </div>
+        </div>
+        
+        <div class="version-info">
             {f'<p><strong>Version:</strong> {version_info}</p>' if version_info else ''}
             {f'<p><strong>Install Mode:</strong> {install_mode}</p>' if install_mode else ''}
         </div>
+        
         <a href="{download_url}" class="download-btn" target="_blank">
-            Download Now
+            📥 Download Now
         </a>
     </div>
 </body>
@@ -247,10 +331,18 @@ def process_download_links():
             response = requests.get(url)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
+            
+            # Extract page info (image and description)
+            image_url, description = extract_page_info(soup)
+            if image_url:
+                print(f"  Found software image: {image_url}")
+            if description:
+                print(f"  Found software description: {description[:100]}...")
+            
             download_links = find_download_links(soup)
             print(f"  Found {len(download_links)} download links")
             if not download_links:
-                default_html = create_download_html("", "", "", software_name)
+                default_html = create_download_html("", "", "", software_name, image_url, description)
                 with open(os.path.join(folder_path, "DownloadPage.html"), 'w', encoding='utf-8') as f:
                     f.write(default_html)
                 print(f"  Created default download page: DownloadPage.html")
@@ -271,7 +363,7 @@ def process_download_links():
                         filename = f"{clean_install_mode}-DownloadPage.html"
                     else:
                         filename = f"DownloadPage-{j}.html" if len(download_links) > 1 else "DownloadPage.html"
-                    html_content = create_download_html(download_url, version_info, install_mode, software_name)
+                    html_content = create_download_html(download_url, version_info, install_mode, software_name, image_url, description)
                     file_path = os.path.join(folder_path, filename)
                     with open(file_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
@@ -308,11 +400,24 @@ def create_main_download_page():
                             version_info = version_match.group(1) if version_match else ""
                             install_match = re.search(r'<strong>Install Mode:</strong> ([^<]+)</p>', content)
                             install_mode = install_match.group(1) if install_match else ""
+                            
+                            # Extract image URL and description
+                            image_url = ""
+                            description = ""
+                            img_match = re.search(r'<img src="([^"]+)"', content)
+                            if img_match:
+                                image_url = img_match.group(1)
+                            desc_match = re.search(r'<div class="software-description">([^<]+)</div>', content)
+                            if desc_match:
+                                description = desc_match.group(1)
+                            
                             download_files.append({
                                 'file_name': html_file,
                                 'download_url': download_url,
                                 'version_info': version_info,
-                                'install_mode': install_mode
+                                'install_mode': install_mode,
+                                'image_url': image_url,
+                                'description': description
                             })
                     except Exception as e:
                         print(f"Error processing file {html_file}: {e}")
@@ -405,15 +510,47 @@ def create_main_download_page():
         }}
         .card-header {{
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
+        }}
+        .software-icon {{
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }}
+        .software-icon img {{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }}
+        .software-icon .placeholder {{
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }}
+        .software-info {{
+            flex: 1;
         }}
         .software-name {{
             font-size: 1.3em;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 5px;
+        }}
+        .software-description {{
+            font-size: 0.9em;
+            color: #6c757d;
+            line-height: 1.4;
+            margin-bottom: 8px;
         }}
         .file-count {{
             background: #e9ecef;
@@ -524,11 +661,21 @@ def create_main_download_page():
 """
     for item in download_items:
         file_count_text = f"{len(item['files'])} Versions" if len(item['files']) > 1 else "1 Version"
+        
+        # Get the first file's image and description for the card
+        first_file = item['files'][0] if item['files'] else {}
+        image_url = first_file.get('image_url', '')
+        description = first_file.get('description', '')
+        
         html_content += f"""
                 <div class="download-card" data-name="{item['name'].lower()}">
                     <div class="card-header">
-                        <div>
+                        <div class="software-icon">
+                            {f'<img src="{image_url}" alt="{item["name"]}" onerror="this.parentElement.innerHTML=\'<div class=\\\"placeholder\\\">📱</div>\'">' if image_url else '<div class="placeholder">📱</div>'}
+                        </div>
+                        <div class="software-info">
                             <div class="software-name">{item['name']}</div>
+                            {f'<div class="software-description">{description[:100]}{"..." if len(description) > 100 else ""}</div>' if description else ''}
                             <div class="file-count">{file_count_text}</div>
                         </div>
                     </div>
