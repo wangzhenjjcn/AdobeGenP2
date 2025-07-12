@@ -208,7 +208,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
     img_html = (
         f"<img src='{image_url}' alt='{software_name}' />"
         if image_url else
-        '<div class="placeholder-image">📱</div>'
+        ""
     )
     js_script = ''
     html_content = f"""<!DOCTYPE html>
@@ -418,9 +418,11 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
     <div class="main-content">
         <div class="software-card">
             <div class="software-header">
+                {f'''
                 <div class="software-image">
                     {img_html}
                 </div>
+                ''' if image_url else ''}
                 <div class="software-name">{software_name}</div>
                 {f'<div class="software-description">{description}</div>' if description else ''}
             </div>
@@ -545,9 +547,11 @@ def create_main_download_page():
                             content = f.read()
                             href_match = re.search(r'href="([^"]+)"', content)
                             download_url = href_match.group(1) if href_match else ""
-                            version_match = re.search(r'<strong>Version:</strong> ([^<]+)</p>', content)
+                            # 修复version-info提取逻辑，匹配分开的Version和Install Mode
+                            version_match = re.search(r'<h3>Version</h3>\s*<p>([^<]+)</p>', content)
                             version_info = version_match.group(1) if version_match else ""
-                            install_match = re.search(r'<strong>Install Mode:</strong> ([^<]+)</p>', content)
+                            
+                            install_match = re.search(r'<h3>Install Mode</h3>\s*<p>([^<]+)</p>', content)
                             install_mode = install_match.group(1) if install_match else ""
                             
                             # Extract image URL and description
@@ -845,9 +849,11 @@ def create_main_download_page():
         html_content += f"""
                 <div class="download-card" data-name="{item['name'].lower()}">
                     <div class="card-header">
+                        {f'''
                         <div class="software-icon">
-                            {f'<img src="{image_url}" alt="{item["name"]}">' if image_url else '<div class="placeholder">📱</div>'}
+                            <img src="{image_url}" alt="{item["name"]}">
                         </div>
+                        ''' if image_url else ''}
                         <div class="software-info">
                             <div class="software-name">{item['name']}</div>
                             {f'<div class="software-description">{description[:100]}{"..." if len(description) > 100 else ""}</div>' if description else ''}
