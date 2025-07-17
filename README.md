@@ -1,8 +1,9 @@
 # Adobe GenP Downloads
 
-[![GitHub stars](https://img.shields.io/github/stars/wangzhenjjcn/AdobeGenP2https://github.com/wangzhenjjcn/AdobeGenP2/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/wangzhenjjcn/AdobeGenP2https://github.com/wangzhenjjcn/AdobeGenP2/network)
-[![GitHub issues](https://img.shields.io/github/issues/wangzhenjjcn/AdobeGenP2https://github.com/wangzhenjjcn/AdobeGenP2/issues)![GitHub license](https://img.shields.io/github/license/wangzhenjjcn/AdobeGenP2https://github.com/wangzhenjjcn/AdobeGenP2/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/wangzhenjjcn/AdobeGenP2?style=flat-square)](https://github.com/wangzhenjjcn/AdobeGenP2/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/wangzhenjjcn/AdobeGenP2?style=flat-square)](https://github.com/wangzhenjjcn/AdobeGenP2/network)
+[![GitHub issues](https://img.shields.io/github/issues/wangzhenjjcn/AdobeGenP2?style=flat-square)](https://github.com/wangzhenjjcn/AdobeGenP2/issues)
+[![GitHub license](https://img.shields.io/github/license/wangzhenjjcn/AdobeGenP2?style=flat-square)](https://github.com/wangzhenjjcn/AdobeGenP2/blob/main/LICENSE)
 
 ---
 
@@ -15,9 +16,10 @@ Adobe GenP Downloads 是一个专业的Adobe软件下载中心，提供Photoshop
 🌐 **官方网站**: [https://adobe.unblock.win/](https://adobe.unblock.win/)
 
 ### 使用方法
-1 访问官方网站
-2 在搜索框中输入软件名称3. 选择所需版本
-4 点击下载按钮即可
+1. 访问官方网站
+2. 在搜索框中输入软件名称
+3. 选择所需版本
+4. 点击下载按钮即可
 
 ---
 
@@ -46,9 +48,10 @@ Adobe GenP Downloads est un centre de téléchargement professionnel de logiciel
 🌐 **Site Officiel**: [https://adobe.unblock.win/](https://adobe.unblock.win/)
 
 ### Comment Utiliser
-1itez le site officiel
+1. Visitez le site officiel
 2. Entrez le nom du logiciel dans la boîte de recherche
-3tionnez la version désirée4liquez sur le bouton de téléchargement
+3. Sélectionnez la version désirée
+4. Cliquez sur le bouton de téléchargement
 
 ---
 
@@ -62,8 +65,9 @@ Adobe GenP Downloads ist ein professionelles Adobe-Software-Downloadzentrum, das
 
 ### Verwendung
 1. Besuchen Sie die offizielle Website
-2. Geben Sie den Softwarenamen in das Suchfeld ein3Wählen Sie die gewünschte Version
-4licken Sie auf den Download-Button
+2. Geben Sie den Softwarenamen in das Suchfeld ein
+3. Wählen Sie die gewünschte Version
+4. Klicken Sie auf den Download-Button
 
 ---
 
@@ -77,8 +81,9 @@ Adobe GenP Downloadsは、Photoshop、Illustrator、Premiere Proなどを含むA
 
 ### 使用方法
 1. 公式ウェブサイトにアクセス
-2 検索ボックスにソフトウェア名を入力
-3. 必要なバージョンを選択4. ダウンロードボタンをクリック
+2. 検索ボックスにソフトウェア名を入力
+3. 必要なバージョンを選択
+4. ダウンロードボタンをクリック
 
 ---
 
@@ -93,7 +98,7 @@ Adobe GenP Downloadsは、Photoshop、Illustrator、Premiere Proなどを含むA
 ## 🛠️ Technology Stack
 
 - **Backend**: Python, BeautifulSoup, Requests
-- **Frontend**: HTML5, CSS3avaScript
+- **Frontend**: HTML5, CSS3, JavaScript
 - **Hosting**: GitHub Pages
 
 ## 📄 License
