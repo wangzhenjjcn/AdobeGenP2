@@ -1,64 +1,113 @@
-# Adobe Genp 2
+# Adobe GenP Downloads
 
-![Update Status](https://github.com/wangzhenjjcn/AdobeGenP2/workflows/Update%20Adobe%20Downloads/badge.svg)
+[![GitHub stars](https://img.shields.io/github/stars/your-username/AdobeGenP2https://github.com/your-username/AdobeGenP2/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/your-username/AdobeGenP2https://github.com/your-username/AdobeGenP2/network)
+[![GitHub issues](https://img.shields.io/github/issues/your-username/AdobeGenP2https://github.com/your-username/AdobeGenP2/issues)![GitHub license](https://img.shields.io/github/license/your-username/AdobeGenP2https://github.com/your-username/AdobeGenP2/blob/main/LICENSE)
 
-##  WebSite
+---
 
-**https://adobe.unblock.win/**
+## 🇨🇳 中文
 
-## 📋 Description
+### 项目简介
+Adobe GenP Downloads 是一个专业的Adobe软件下载中心，提供Photoshop、Illustrator、Premiere Pro等Adobe创意套件的下载服务。项目自动采集和整理最新的Adobe软件版本，为用户提供便捷的一键下载体验。
 
-Professional Adobe software download center with automatic updates.
+### 网站地址
+🌐 **官方网站**: [https://adobe.unblock.win/](https://adobe.unblock.win/)
 
-## 🔧 Usage
+### 使用方法
+1 访问官方网站
+2 在搜索框中输入软件名称3. 选择所需版本
+4 点击下载按钮即可
 
-1. Download links
-2. Open `index.html` in your browser
-3. Or visit the live demo at **https://adobe.unblock.win/**
+---
 
-## 📁 Project Structure
+## 🇺🇸 English
 
-## 🚀 Recent Updates
+### Project Description
+Adobe GenP Downloads is a professional Adobe software download center that provides download services for Adobe Creative Suite including Photoshop, Illustrator, Premiere Pro, and more. The project automatically collects and organizes the latest Adobe software versions, offering users a convenient one-click download experience.
 
-### 2025-07-13
-- **🔧 修复版本信息显示问题**
-  - 修复了index页面中version-info显示为"Standard"的问题
-  - 正确提取和显示版本号和安装模式信息
-  - 版本信息现在显示为：`4.4.0.44 (Preactivated Installer) x64`
+### Website
+🌐 **Official Website**: [https://adobe.unblock.win/](https://adobe.unblock.win/)
 
-- **🔍 增强搜索功能**
-  - 搜索功能现在可以检索版本信息中的文字
-  - 搜索功能现在可以检索软件简介中的文字
-  - 支持按软件名、版本号、安装模式、描述进行搜索
+### How to Use
+1. Visit the official website
+2. Enter the software name in the search box
+3. Select the desired version
+4. Click the download button
 
-- **🖼️ 优化图片显示**
-  - 移除了所有placeholder占位符
-  - 只在有图片时显示图片区域
-  - 修复了图片加载错误处理
+---
 
-- **📱 改进下载页面布局**
-  - Version和Install Mode现在并排显示在同一行
-  - 优化了信息展示的视觉效果
-  - 改进了响应式设计
+## 🇫🇷 Français
 
-- **🔗 扩展链接采集范围**
-  - 现在可以采集没有年份的Adobe产品链接
-  - 支持如`acrobat-pro-dc`这样的链接格式
-  - 修复了链接验证逻辑
+### Description du Projet
+Adobe GenP Downloads est un centre de téléchargement professionnel de logiciels Adobe qui fournit des services de téléchargement pour la Suite Creative Adobe incluant Photoshop, Illustrator, Premiere Pro, et plus encore. Le projet collecte et organise automatiquement les dernières versions de logiciels Adobe, offrant aux utilisateurs une expérience de téléchargement en un clic.
 
-### 2025-07-12
-- **🎨 重新设计下载页面布局**
-  - 采用完全居中的分层结构设计
-  - 优化了信息重心平衡
-  - 改进了视觉层次和用户体验
+### Site Web
+🌐 **Site Officiel**: [https://adobegenp.github.io](https://adobegenp.github.io)
 
-- **📄 添加图片和描述采集**
-  - 从详情页面采集软件图片
-  - 提取软件描述文字
-  - 在下载页面中显示图片和描述
+### Comment Utiliser
+1itez le site officiel
+2. Entrez le nom du logiciel dans la boîte de recherche
+3tionnez la version désirée4liquez sur le bouton de téléchargement
 
-- **🔧 修复JavaScript语法问题**
-  - 解决了f-string中JavaScript代码的语法错误
-  - 优化了HTML模板生成逻辑
+---
 
-## �� Project Structure
+## 🇩🇪 Deutsch
+
+### Projektbeschreibung
+Adobe GenP Downloads ist ein professionelles Adobe-Software-Downloadzentrum, das Download-Services für Adobe Creative Suite einschließlich Photoshop, Illustrator, Premiere Pro und mehr bereitstellt. Das Projekt sammelt und organisiert automatisch die neuesten Adobe-Software-Versionen und bietet Benutzern eine bequeme One-Click-Download-Erfahrung.
+
+### Website
+🌐 **Offizielle Website**: [https://adobegenp.github.io](https://adobegenp.github.io)
+
+### Verwendung
+1. Besuchen Sie die offizielle Website
+2. Geben Sie den Softwarenamen in das Suchfeld ein3Wählen Sie die gewünschte Version
+4licken Sie auf den Download-Button
+
+---
+
+## 🇯🇵 日本語
+
+### プロジェクト説明
+Adobe GenP Downloadsは、Photoshop、Illustrator、Premiere Proなどを含むAdobe Creative Suiteのダウンロードサービスを提供するプロフェッショナルなAdobeソフトウェアダウンロードセンターです。このプロジェクトは最新のAdobeソフトウェアバージョンを自動的に収集・整理し、ユーザーに便利なワンクリックダウンロード体験を提供します。
+
+### ウェブサイト
+🌐 **公式ウェブサイト**: [https://adobegenp.github.io](https://adobegenp.github.io)
+
+### 使用方法
+1. 公式ウェブサイトにアクセス
+2 検索ボックスにソフトウェア名を入力
+3. 必要なバージョンを選択4. ダウンロードボタンをクリック
+
+---
+
+## 🚀 Features
+
+- 🔍 **Smart Search**: Search by software name, version, or description
+- 📱 **Responsive Design**: Works perfectly on desktop and mobile devices
+- 🎨 **Modern UI**: Beautiful gradient design with smooth animations
+- ⚡ **Fast Loading**: Optimized for quick page loading
+- 🔄 **Auto Update**: Automatically collects latest software versions
+
+## 🛠️ Technology Stack
+
+- **Backend**: Python, BeautifulSoup, Requests
+- **Frontend**: HTML5, CSS3avaScript
+- **Hosting**: GitHub Pages
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📞 Contact
+
+If you have any questions or suggestions, please open an issue on GitHub.
+
+---
+
+*Made with ❤️ for the creative community* 
