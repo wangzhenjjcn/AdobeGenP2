@@ -91,6 +91,12 @@ def extract_detail_page_date(soup):
         # 提取日期部分（去掉链接部分）
         if " - " in date_text:
             date_text = date_text.split(" - ")[0]
+        elif " -" in date_text:
+            date_text = date_text.split(" -")[0]
+        elif "- " in date_text:
+            date_text = date_text.split("- ")[0]
+        elif "-" in date_text:
+            date_text = date_text.split("-")[0]
         return parse_date(date_text)
     return None
 
