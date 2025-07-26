@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+import json
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from datetime import datetime
@@ -43,6 +44,74 @@ link_prefix = "https://www.cybermania.ws/apps"
 base_url = "https://www.cybermania.ws"
 search_url = f"{base_url}/?s=adobe"
 
+def parse_date(date_str):
+    """Parse date string to datetime object"""
+    if not date_str:
+        return None
+    try:
+        # 处理常见的日期格式
+        date_formats = [
+            "%B %d, %Y",  # July 19, 2025
+            "%b %d, %Y",   # Jul 19, 2025
+            "%d %B %Y",    # 19 July 2025
+            "%Y-%m-%d",    # 2025-07-19
+            "%m/%d/%Y",    # 07/19/2025
+        ]
+        
+        for fmt in date_formats:
+            try:
+                return datetime.strptime(date_str.strip(), fmt)
+            except ValueError:
+                continue
+        
+        # 如果标准格式都失败，尝试更宽松的解析
+        return datetime.strptime(date_str.strip(), "%B %d, %Y")
+    except:
+        return None
+
+def extract_list_page_date(soup, url):
+    """Extract publication date from list page"""
+    # 查找包含该链接的文章
+    for article in soup.find_all("article"):
+        link_elem = article.find("a", href=url)
+        if link_elem:
+            # 查找该文章中的post_date
+            post_date_div = article.find("div", class_="post_date")
+            if post_date_div:
+                date_text = post_date_div.get_text(strip=True)
+                return parse_date(date_text)
+    return None
+
+def extract_detail_page_date(soup):
+    """Extract publication date from detail page"""
+    # 查找insidepost_date
+    date_div = soup.find("div", class_="insidepost_date")
+    if date_div:
+        date_text = date_div.get_text(strip=True)
+        # 提取日期部分（去掉链接部分）
+        if " - " in date_text:
+            date_text = date_text.split(" - ")[0]
+        return parse_date(date_text)
+    return None
+
+def load_processed_links():
+    """Load previously processed links and their dates"""
+    processed_file = "data/processed_links.json"
+    if os.path.exists(processed_file):
+        try:
+            with open(processed_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
+def save_processed_links(processed_links):
+    """Save processed links and their dates"""
+    processed_file = "data/processed_links.json"
+    os.makedirs("data", exist_ok=True)
+    with open(processed_file, 'w', encoding='utf-8') as f:
+        json.dump(processed_links, f, indent=2, default=str)
+
 def beautify_software_name(folder_name):
     """Beautify folder name for display as software name"""
     return folder_name.replace('-', ' ').replace('_', ' ').title()
@@ -68,14 +137,20 @@ def get_links_from_page(url):
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
     links = set()
+    link_dates = {}  # 存储链接和对应的日期
+    
     for a in soup.find_all("a", href=True):
         try:
             href = a["href"]
             if is_valid_adobe_link(href):
                 links.add(href)
+                # 提取列表页日期
+                list_date = extract_list_page_date(soup, href)
+                if list_date:
+                    link_dates[href] = list_date
         except (KeyError, TypeError):
             continue
-    return links, soup
+    return links, soup, link_dates
 
 def has_next_page(soup, current_page):
     older_posts = soup.find("a", string=lambda s: s and "Older posts" in s)
@@ -456,29 +531,86 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
 </html>"""
     return html_content
 
+def load_list_page_dates():
+    """Load list page dates from link_dates.json"""
+    dates_file = "data/link_dates.json"
+    if os.path.exists(dates_file):
+        try:
+            with open(dates_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
 def process_download_links():
-    """Process all links in data.txt"""
+    """Process all links in data.txt with date comparison"""
     data_file = "data/data.txt"
     if not os.path.exists(data_file):
         print(f"Error: File not found {data_file}")
         return
+    
+    # 加载已处理的链接和列表页日期
+    processed_links = load_processed_links()
+    list_page_dates = load_list_page_dates()
+    print(f"Loaded {len(processed_links)} previously processed links")
+    print(f"Loaded {len(list_page_dates)} list page dates")
+    
     with open(data_file, 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f if line.strip()]
+    
     print(f"Starting to process {len(urls)} links...")
+    updated_count = 0
+    skipped_count = 0
+    
     for i, url in enumerate(urls, 1):
         print(f"\nProcessing link {i}/{len(urls)}: {url}")
+        
         folder_name = extract_folder_name(url)
         if not folder_name:
             print(f"  Skip: Cannot extract folder name")
             continue
+        
         software_name = beautify_software_name(folder_name)
         folder_path = os.path.join("DownloadLinks", folder_name)
         os.makedirs(folder_path, exist_ok=True)
         print(f"  Created folder: {folder_path}")
+        
         try:
             response = requests.get(url)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
+            
+            # 提取详情页日期
+            detail_date = extract_detail_page_date(soup)
+            if detail_date:
+                print(f"  Detail page date: {detail_date.strftime('%Y-%m-%d')}")
+            
+            # 获取列表页日期
+            list_date = None
+            if url in list_page_dates:
+                list_date = parse_date(list_page_dates[url])
+                if list_date:
+                    print(f"  List page date: {list_date.strftime('%Y-%m-%d')}")
+            
+            # 检查是否需要更新（比较日期）
+            should_update = True
+            if url in processed_links:
+                last_processed_date = processed_links[url].get('detail_date')
+                if last_processed_date:
+                    last_date = parse_date(last_processed_date)
+                    if last_date and detail_date:
+                        if detail_date <= last_date:
+                            print(f"  Skip: Detail page date ({detail_date.strftime('%Y-%m-%d')}) is not newer than last processed ({last_date.strftime('%Y-%m-%d')})")
+                            should_update = False
+                            skipped_count += 1
+            
+            # 如果详情页日期比列表页日期新，则更新
+            if list_date and detail_date and detail_date > list_date:
+                print(f"  Update: Detail page date ({detail_date.strftime('%Y-%m-%d')}) is newer than list page date ({list_date.strftime('%Y-%m-%d')})")
+                should_update = True
+            
+            if not should_update:
+                continue
             
             # Extract page info (image and description)
             image_url, description = extract_page_info(soup)
@@ -489,6 +621,7 @@ def process_download_links():
             
             download_links = find_download_links(soup)
             print(f"  Found {len(download_links)} download links")
+            
             if not download_links:
                 default_html = create_download_html("", "", "", software_name, image_url, description)
                 with open(os.path.join(folder_path, "DownloadPage.html"), 'w', encoding='utf-8') as f:
@@ -520,10 +653,26 @@ def process_download_links():
                         print(f"    Version info: {version_info}")
                     if install_mode:
                         print(f"    Install mode: {install_mode}")
+            
+            # 保存处理信息
+            processed_links[url] = {
+                'detail_date': detail_date.strftime('%Y-%m-%d') if detail_date else None,
+                'processed_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'folder_name': folder_name,
+                'software_name': software_name
+            }
+            updated_count += 1
+            
         except Exception as e:
             print(f"  Error: {e}")
             continue
+    
+    # 保存更新后的处理信息
+    save_processed_links(processed_links)
     print(f"\nProcessing completed!")
+    print(f"Updated: {updated_count} links")
+    print(f"Skipped: {skipped_count} links")
+    print(f"Total processed: {len(processed_links)} links")
 
 def create_main_download_page():
     """Create main download page"""
@@ -908,23 +1057,29 @@ def create_main_download_page():
 def main():
     os.makedirs("data", exist_ok=True)
     all_links = set()
+    all_link_dates = {}  # 存储所有链接的日期信息
     page = 1
     max_pages = 50
     all_links.update(force_include_links)
     print(f"Added {len(force_include_links)} forced include links")
+    
     while page <= max_pages:
         url = get_next_page_url(page)
         print(f"Fetching page {page}: {url}")
         try:
-            links, soup = get_links_from_page(url)
+            links, soup, link_dates = get_links_from_page(url)
             print(f"Page {page} found {len(links)} valid links")
+            
+            # 合并链接和日期信息
+            all_links.update(links)
+            all_link_dates.update(link_dates)
+            
             if page == 1 and not links:
                 print("Warning: No valid links found on the first page, please check the website structure")
                 break
             if page > 1 and not links:
                 print(f"Page {page} has no links, reached the last page")
                 break
-            all_links.update(links)
             if not has_next_page(soup, page):
                 print(f"Page {page} has no next page links, stopped fetching")
                 break
@@ -939,10 +1094,23 @@ def main():
             print(f"Request for page {page} failed: {e}")
             break
         page += 1
+    
+    # 保存链接和日期信息
     with open("data/data.txt", "w", encoding="utf-8") as f:
         for link in sorted(all_links):
             f.write(link + "\n")
+    
+    # 保存日期信息到单独的文件
+    with open("data/link_dates.json", "w", encoding="utf-8") as f:
+        # 转换datetime对象为字符串
+        dates_dict = {}
+        for link, date in all_link_dates.items():
+            if date:
+                dates_dict[link] = date.strftime('%Y-%m-%d')
+        json.dump(dates_dict, f, indent=2)
+    
     print(f"Total saved {len(all_links)} links to data/data.txt")
+    print(f"Saved {len(all_link_dates)} link dates to data/link_dates.json")
     print("\nStarting to process download links...")
     process_download_links()
     print("\nStarting to generate download center page...")
