@@ -22,7 +22,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.PAT_TOKEN }}
         fetch-depth: 0
       
     - name: Set up Python
@@ -58,6 +57,4 @@ jobs:
       run: |
         git add .
         git commit -m "Auto update: $(date '+%Y-%m-%d %H:%M:%S')"
-        git push origin main
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        git push
