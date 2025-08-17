@@ -10,6 +10,10 @@ on:
     # 当main分支有更新时运行
     branches: [ main ]
 
+# 设置工作流权限
+permissions:
+  contents: write
+
 jobs:
   update-downloads:
     runs-on: ubuntu-latest
@@ -19,7 +23,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.PAT_TOKEN }}
-        
+        fetch-depth: 0
+      
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -28,7 +33,19 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4
+        pip install -r requirements.txt
+        
+    - name: Debug environment
+      run: |
+        echo "Current directory: $(pwd)"
+        echo "Repository contents:"
+        ls -la
+        echo "Git status:"
+        git status
+        echo "Git config:"
+        git config --list
+        echo "Git remote:"
+        git remote -v
         
     - name: Run download script
       run: |
@@ -37,19 +54,28 @@ jobs:
     - name: Check for changes
       id: changes
       run: |
+        echo "Checking for changes..."
+        git status --porcelain
         if [ -n "$(git status --porcelain)" ]; then
           echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Changes detected, will commit and push"
         else
           echo "has_changes=false" >> $GITHUB_OUTPUT
+          echo "No changes detected"
         fi
         
     - name: Commit and push changes
       if: steps.changes.outputs.has_changes == 'true'
       run: |
+        echo "Setting up git configuration..."
         git config --local user.email "wangzhenjjcn@gmail.com"
         git config --local user.name "WangZhenAction"
+        echo "Adding files..."
         git add .
+        echo "Committing changes..."
         git commit -m "Auto update: $(date '+%Y-%m-%d %H:%M:%S')"
+        echo "Pushing changes..."
         git push origin main
+        echo "Push completed successfully"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
