@@ -28,8 +28,8 @@ except ImportError:
 
 def get_html_path():
     """获取 index.html 文件的绝对路径"""
-    # 获取当前脚本所在目录的上级目录（因为现在在gui子目录中）
-    current_dir = Path(__file__).parent.parent.absolute()
+    # 获取当前脚本所在目录的上两级目录（因为现在在src/gui子目录中）
+    current_dir = Path(__file__).parent.parent.parent.absolute()
     html_file = current_dir / "index.html"
     
     if html_file.exists():

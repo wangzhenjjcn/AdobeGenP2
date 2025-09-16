@@ -102,7 +102,7 @@ def extract_detail_page_date(soup):
 
 def load_processed_links():
     """Load previously processed links and their dates"""
-    processed_file = "data/processed_links.json"
+    processed_file = "../data/processed_links.json"
     if os.path.exists(processed_file):
         try:
             with open(processed_file, 'r', encoding='utf-8') as f:
@@ -113,8 +113,8 @@ def load_processed_links():
 
 def save_processed_links(processed_links):
     """Save processed links and their dates"""
-    processed_file = "data/processed_links.json"
-    os.makedirs("data", exist_ok=True)
+    processed_file = "../data/processed_links.json"
+    os.makedirs("../data", exist_ok=True)
     with open(processed_file, 'w', encoding='utf-8') as f:
         json.dump(processed_links, f, indent=2, default=str)
 
@@ -539,7 +539,7 @@ def create_download_html(download_url, version_info="", install_mode="", softwar
 
 def load_list_page_dates():
     """Load list page dates from link_dates.json"""
-    dates_file = "data/link_dates.json"
+    dates_file = "../data/link_dates.json"
     if os.path.exists(dates_file):
         try:
             with open(dates_file, 'r', encoding='utf-8') as f:
@@ -550,7 +550,7 @@ def load_list_page_dates():
 
 def process_download_links():
     """Process all links in data.txt with date comparison"""
-    data_file = "data/data.txt"
+    data_file = "../data/data.txt"
     if not os.path.exists(data_file):
         print(f"Error: File not found {data_file}")
         return
@@ -577,7 +577,7 @@ def process_download_links():
             continue
         
         software_name = beautify_software_name(folder_name)
-        folder_path = os.path.join("DownloadLinks", folder_name)
+        folder_path = os.path.join("../DownloadLinks", folder_name)
         os.makedirs(folder_path, exist_ok=True)
         print(f"  Created folder: {folder_path}")
         
@@ -682,12 +682,12 @@ def process_download_links():
 
 def create_main_download_page():
     """Create main download page"""
-    if not os.path.exists("DownloadLinks"):
+    if not os.path.exists("../DownloadLinks"):
         print("Error: DownloadLinks directory does not exist")
         return
     download_items = []
-    for folder_name in os.listdir("DownloadLinks"):
-        folder_path = os.path.join("DownloadLinks", folder_name)
+    for folder_name in os.listdir("../DownloadLinks"):
+        folder_path = os.path.join("../DownloadLinks", folder_name)
         if os.path.isdir(folder_path):
             html_files = [f for f in os.listdir(folder_path) if f.endswith('.html')]
             if html_files:
@@ -1033,7 +1033,7 @@ def create_main_download_page():
             html_content += f"""
                         <div class="download-item">
                             <div class="version-info">{version_display} {install_mode_display}</div>
-                            <a href="./DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
+                            <a href="../DownloadLinks/{item['folder']}/{file_info['file_name']}" class="download-btn" target="_blank">
                                 Download
                             </a>
                         </div>
@@ -1054,14 +1054,14 @@ def create_main_download_page():
     </div>
 </body>
 </html>"""
-    with open("index.html", "w", encoding="utf-8") as f:
+    with open("../index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
-    print(f"Generated download center page: index.html")
+    print(f"Generated download center page: ../index.html")
     print(f"Contains {len(download_items)} software download links")
     print("Please open index.html in your browser to view the results")
 
 def main():
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("../data", exist_ok=True)
     all_links = set()
     all_link_dates = {}  # 存储所有链接的日期信息
     page = 1
@@ -1102,12 +1102,12 @@ def main():
         page += 1
     
     # 保存链接和日期信息
-    with open("data/data.txt", "w", encoding="utf-8") as f:
+    with open("../data/data.txt", "w", encoding="utf-8") as f:
         for link in sorted(all_links):
             f.write(link + "\n")
     
     # 保存日期信息到单独的文件
-    with open("data/link_dates.json", "w", encoding="utf-8") as f:
+    with open("../data/link_dates.json", "w", encoding="utf-8") as f:
         # 转换datetime对象为字符串
         dates_dict = {}
         for link, date in all_link_dates.items():
@@ -1115,8 +1115,8 @@ def main():
                 dates_dict[link] = date.strftime('%Y-%m-%d')
         json.dump(dates_dict, f, indent=2)
     
-    print(f"Total saved {len(all_links)} links to data/data.txt")
-    print(f"Saved {len(all_link_dates)} link dates to data/link_dates.json")
+    print(f"Total saved {len(all_links)} links to ../data/data.txt")
+    print(f"Saved {len(all_link_dates)} link dates to ../data/link_dates.json")
     print("\nStarting to process download links...")
     process_download_links()
     print("\nStarting to generate download center page...")

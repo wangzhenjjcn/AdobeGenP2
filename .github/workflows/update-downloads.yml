@@ -41,6 +41,7 @@ jobs:
         
     - name: Run download script
       run: |
+        cd src
         python app.py
         
     - name: Check for changes

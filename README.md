@@ -101,6 +101,62 @@ Adobe GenP Downloadsは、Photoshop、Illustrator、Premiere Proなどを含むA
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Hosting**: GitHub Pages
 
+## 📁 Project Structure
+
+```
+AdobeGenP2/
+├── src/                    # 源代码目录
+│   ├── app.py             # 主程序（数据采集和页面生成）
+│   ├── requirements.txt   # Python依赖包
+│   └── gui/               # GUI应用
+│       ├── app-gui.py     # 桌面应用程序
+│       ├── run_gui.bat    # GUI启动脚本
+│       └── README.md      # GUI说明文档
+├── data/                  # 数据文件目录
+├── DownloadLinks/         # 生成的下载页面
+├── index.html            # 主页面
+├── run_app.bat           # 主程序启动脚本
+├── run_gui.bat           # 桌面应用启动脚本
+└── requirements.txt      # 项目依赖包
+```
+
+## 🚀 Quick Start
+
+### 运行主程序（数据采集）
+
+**方法1：使用批处理文件（推荐）**
+```bash
+# Windows用户直接双击运行
+run_app.bat
+```
+
+**方法2：手动运行**
+```bash
+# 安装依赖
+pip install -r src/requirements.txt
+
+# 进入src目录并运行
+cd src
+python app.py
+```
+
+### 运行桌面应用
+
+**方法1：使用批处理文件（推荐）**
+```bash
+# Windows用户直接双击运行
+run_gui.bat
+```
+
+**方法2：手动运行**
+```bash
+# 安装GUI依赖
+pip install pywebview
+
+# 运行桌面应用
+python src/gui/app-gui.py
+```
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
