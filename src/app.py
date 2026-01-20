@@ -3,8 +3,53 @@ import re
 import requests
 import json
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from functools import lru_cache
+import time
+
+# 尝试使用lxml解析器（更快），如果不可用则回退到html.parser
+try:
+    import lxml
+    HTML_PARSER = "lxml"
+except ImportError:
+    HTML_PARSER = "html.parser"
+
+# 创建全局Session对象以复用连接
+_session = None
+def get_session():
+    """获取或创建全局Session对象"""
+    global _session
+    if _session is None:
+        _session = requests.Session()
+        _session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        })
+    return _session
+
+# 检测是否在CI环境中运行
+IS_CI = os.getenv('CI') == 'true' or os.getenv('GITHUB_ACTIONS') == 'true'
+IS_GITHUB_ACTIONS = os.getenv('GITHUB_ACTIONS') == 'true'
+
+# 请求配置（根据环境调整）
+if IS_CI:
+    # CI环境：更保守的设置，避免超时和资源限制
+    REQUEST_TIMEOUT = 60  # CI环境网络可能较慢，增加超时时间
+    MAX_RETRIES = 5  # CI环境增加重试次数
+    RETRY_DELAY = 2  # 增加重试延迟
+    CONCURRENT_WORKERS = 3  # CI环境降低并发数，避免资源限制
+    ENABLE_DETAILED_LOGS = True  # CI环境启用详细日志
+else:
+    # 本地环境：更激进的设置
+    REQUEST_TIMEOUT = 30
+    MAX_RETRIES = 3
+    RETRY_DELAY = 1
+    CONCURRENT_WORKERS = 5
+    ENABLE_DETAILED_LOGS = False
+
+# 进度报告配置
+PROGRESS_INTERVAL = 10  # 每处理N个链接报告一次进度
 
 # Adobe product name patterns and aliases
 adobe_patterns = [
@@ -41,6 +86,7 @@ force_include_links = {
 }
 
 link_prefix = "https://www.cybermania.ws/apps"
+link_prefix_appz = "https://www.cybermania.ws/appz"  # 网站也使用/appz/路径
 base_url = "https://www.cybermania.ws"
 search_url = f"{base_url}/?s=adobe"
 
@@ -123,39 +169,131 @@ def beautify_software_name(folder_name):
     return folder_name.replace('-', ' ').replace('_', ' ').title()
 
 def is_valid_adobe_link(href):
+    """
+    验证是否为有效的Adobe产品链接
+    支持绝对路径和相对路径
+    支持/apps/和/appz/两种路径格式
+    """
     # Force include links return True directly
     if href in force_include_links:
         return True
-    if not href.startswith(link_prefix):
+    
+    # 检查是否为绝对路径或相对路径的/apps/或/appz/链接
+    # 支持格式：
+    # - https://www.cybermania.ws/apps/...
+    # - https://www.cybermania.ws/appz/...
+    # - /apps/...
+    # - /appz/...
+    # - apps/... (相对路径)
+    # - appz/... (相对路径)
+    is_apps_link = False
+    if href.startswith(link_prefix) or href.startswith(link_prefix_appz):
+        # 绝对路径
+        is_apps_link = True
+    elif href.startswith('/apps/') or href.startswith('/appz/'):
+        # 以/apps/或/appz/开头的相对路径
+        is_apps_link = True
+    elif href.startswith('apps/') or href.startswith('appz/'):
+        # 以apps/或appz/开头的相对路径
+        is_apps_link = True
+    elif ('/apps/' in href or '/appz/' in href) and 'cybermania.ws' in href:
+        # 包含/apps/或/appz/的完整URL
+        is_apps_link = True
+    
+    if not is_apps_link:
         return False
+    
+    # 排除无效链接
     if "comment-page" in href or "#" in href or href in exclude_links:
         return False
+    
+    # 排除分页链接
+    if "/page/" in href or "/post/" in href:
+        return False
+    
     # 检查是否有年份的产品链接
     if product_year_regex.search(href):
         return True
+    
     # 检查没有年份的Adobe产品链接
     if adobe_product_regex.search(href):
         return True
+    
     return False
 
-def get_links_from_page(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    soup = BeautifulSoup(response.text, "html.parser")
+def get_links_from_page(url, session=None):
+    """获取页面链接，支持Session复用和重试"""
+    if session is None:
+        session = get_session()
+    
+    # 重试机制
+    for attempt in range(MAX_RETRIES):
+        try:
+            response = session.get(url, timeout=REQUEST_TIMEOUT)
+            response.raise_for_status()
+            break
+        except (requests.exceptions.RequestException, requests.exceptions.Timeout) as e:
+            if attempt == MAX_RETRIES - 1:
+                raise
+            print(f"  请求失败，{RETRY_DELAY}秒后重试 ({attempt + 1}/{MAX_RETRIES}): {e}")
+            time.sleep(RETRY_DELAY * (attempt + 1))  # 指数退避
+    
+    soup = BeautifulSoup(response.text, HTML_PARSER)
     links = set()
     link_dates = {}  # 存储链接和对应的日期
+    
+    # 调试：统计所有链接
+    all_hrefs_count = 0
+    apps_hrefs_count = 0
+    valid_hrefs_count = 0
     
     for a in soup.find_all("a", href=True):
         try:
             href = a["href"]
-            if is_valid_adobe_link(href):
-                links.add(href)
-                # 提取列表页日期
+            all_hrefs_count += 1
+            
+            # 将相对路径转换为绝对路径
+            absolute_href = urljoin(url, href)
+            
+            # 统计包含/apps/或/appz/的链接
+            if "/apps/" in absolute_href or "/appz/" in absolute_href:
+                apps_hrefs_count += 1
+            
+            # 验证链接（使用绝对路径）
+            if is_valid_adobe_link(absolute_href):
+                valid_hrefs_count += 1
+                links.add(absolute_href)
+                # 提取列表页日期（使用原始href用于匹配）
                 list_date = extract_list_page_date(soup, href)
                 if list_date:
-                    link_dates[href] = list_date
+                    link_dates[absolute_href] = list_date
         except (KeyError, TypeError):
             continue
+    
+    # 详细日志
+    if ENABLE_DETAILED_LOGS or len(links) < 5:
+        print(f"  Debug: Total links={all_hrefs_count}, /apps/ links={apps_hrefs_count}, Valid links={valid_hrefs_count}")
+        if apps_hrefs_count > valid_hrefs_count:
+            # 如果有很多/apps/链接但验证通过的很少，显示一些示例
+            print(f"  Warning: Found {apps_hrefs_count} /apps/ links but only {valid_hrefs_count} passed validation")
+            # 显示一些未通过的链接示例
+            sample_invalid = []
+            for a in soup.find_all("a", href=True):
+                href = a.get("href", "")
+                if href and ("/apps/" in href or "/appz/" in href):
+                    absolute_href = urljoin(url, href)
+                    if not is_valid_adobe_link(absolute_href) and len(sample_invalid) < 5:
+                        sample_invalid.append(absolute_href)
+            if sample_invalid:
+                print(f"  Sample invalid /apps/ links:")
+                for invalid_link in sample_invalid:
+                    print(f"    - {invalid_link}")
+    
+    if ENABLE_DETAILED_LOGS:
+        print(f"  Found {len(links)} valid Adobe links on this page")
+        if len(links) > 0:
+            print(f"  Sample links: {list(links)[:3]}")
+    
     return links, soup, link_dates
 
 def has_next_page(soup, current_page):
@@ -194,8 +332,11 @@ def extract_folder_name(url):
             return "adobe-genp"
         elif url == "https://www.cybermania.ws/apps/genp-universal-patch/":
             return "genp-universal-patch"
+    # 支持/apps/和/appz/两种路径
     if '/apps/' in url:
         return url.split('/apps/')[-1]
+    elif '/appz/' in url:
+        return url.split('/appz/')[-1]
     elif '/cybermania/' in url:
         return url.split('/cybermania/')[-1]
     return None
@@ -548,12 +689,157 @@ def load_list_page_dates():
             return {}
     return {}
 
+def process_single_link(url, processed_links, list_page_dates, session=None):
+    """处理单个链接（用于并发处理）"""
+    if session is None:
+        session = get_session()
+    
+    result = {
+        'url': url,
+        'status': 'success',
+        'updated': False,
+        'skipped': False,
+        'error': None
+    }
+    
+    folder_name = extract_folder_name(url)
+    if not folder_name:
+        result['status'] = 'skipped'
+        result['error'] = 'Cannot extract folder name'
+        return result
+    
+    software_name = beautify_software_name(folder_name)
+    folder_path = os.path.join("../DownloadLinks", folder_name)
+    os.makedirs(folder_path, exist_ok=True)
+    
+    try:
+        # 使用重试机制获取页面
+        for attempt in range(MAX_RETRIES):
+            try:
+                response = session.get(url, timeout=REQUEST_TIMEOUT)
+                response.raise_for_status()
+                break
+            except (requests.exceptions.RequestException, requests.exceptions.Timeout) as e:
+                if attempt == MAX_RETRIES - 1:
+                    raise
+                time.sleep(RETRY_DELAY * (attempt + 1))
+        
+        soup = BeautifulSoup(response.text, HTML_PARSER)
+        
+        # 提取详情页日期
+        detail_date = extract_detail_page_date(soup)
+        
+        # 获取列表页日期
+        list_date = None
+        if url in list_page_dates:
+            list_date = parse_date(list_page_dates[url])
+        
+        # Extract page info (image and description)
+        image_url, description = extract_page_info(soup)
+        download_links = find_download_links(soup)
+        
+        # 检查是否需要更新（比较日期和版本）
+        should_update = True
+        if url in processed_links:
+            last_processed_date = processed_links[url].get('detail_date')
+            if last_processed_date:
+                last_date = parse_date(last_processed_date)
+                if last_date and detail_date:
+                    # 如果日期相同或更旧，检查版本是否有变化
+                    if detail_date <= last_date:
+                        # 检查已保存的文件版本
+                        existing_versions = set()
+                        if os.path.exists(folder_path):
+                            for filename in os.listdir(folder_path):
+                                if filename.endswith('.html'):
+                                    # 从文件名提取版本号
+                                    version_match = re.search(r'^(\d+\.\d+\.\d+\.\d+|\d+\.\d+\.\d+|\d+\.\d+|\d+)', filename)
+                                    if version_match:
+                                        existing_versions.add(version_match.group(1))
+                        
+                        # 检查当前页面的版本
+                        current_versions = set()
+                        for dl in download_links:
+                            if dl.get('version_info'):
+                                current_versions.add(dl['version_info'])
+                        
+                        # 如果有新版本，需要更新
+                        if current_versions and current_versions != existing_versions:
+                            should_update = True
+                            if ENABLE_DETAILED_LOGS:
+                                print(f"  Version changed: {existing_versions} -> {current_versions}, updating...")
+                        else:
+                            should_update = False
+                            result['skipped'] = True
+                            result['status'] = 'skipped'
+                            result['reason'] = f'Date unchanged ({detail_date.strftime("%Y-%m-%d")}) and no version change'
+                            return result
+        
+        # 如果详情页日期比列表页日期新，则更新
+        if list_date and detail_date and detail_date > list_date:
+            should_update = True
+        
+        if not should_update:
+            result['skipped'] = True
+            result['status'] = 'skipped'
+            result['reason'] = 'No update needed'
+            return result
+        
+        if not download_links:
+            default_html = create_download_html("", "", "", software_name, image_url, description)
+            with open(os.path.join(folder_path, "DownloadPage.html"), 'w', encoding='utf-8') as f:
+                f.write(default_html)
+        else:
+            for j, download_info in enumerate(download_links, 1):
+                version_info = download_info['version_info']
+                install_mode = download_info['install_mode']
+                download_url = download_info['url']
+                if version_info and install_mode:
+                    clean_version = re.sub(r'[<>:"/\\|?*]', '_', version_info)
+                    clean_install_mode = re.sub(r'[<>:"/\\|?*]', '_', install_mode)
+                    filename = f"{clean_version}-{clean_install_mode}-DownloadPage.html"
+                elif version_info:
+                    clean_version = re.sub(r'[<>:"/\\|?*]', '_', version_info)
+                    filename = f"{clean_version}-DownloadPage.html"
+                elif install_mode:
+                    clean_install_mode = re.sub(r'[<>:"/\\|?*]', '_', install_mode)
+                    filename = f"{clean_install_mode}-DownloadPage.html"
+                else:
+                    filename = f"DownloadPage-{j}.html" if len(download_links) > 1 else "DownloadPage.html"
+                html_content = create_download_html(download_url, version_info, install_mode, software_name, image_url, description)
+                file_path = os.path.join(folder_path, filename)
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(html_content)
+        
+        # 保存处理信息（需要线程安全，这里简化处理）
+        result['processed_info'] = {
+            'detail_date': detail_date.strftime('%Y-%m-%d') if detail_date else None,
+            'processed_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'folder_name': folder_name,
+            'software_name': software_name
+        }
+        result['updated'] = True
+        
+    except Exception as e:
+        result['status'] = 'error'
+        result['error'] = str(e)
+    
+    return result
+
 def process_download_links():
-    """Process all links in data.txt with date comparison"""
+    """Process all links in data.txt with date comparison (优化版本：支持并发处理，针对CI环境优化)"""
+    start_time = time.time()
     data_file = "../data/data.txt"
     if not os.path.exists(data_file):
         print(f"Error: File not found {data_file}")
         return
+    
+    # 环境信息
+    if IS_CI:
+        print("=" * 60)
+        print("Running in CI/CD environment")
+        print(f"Environment: {'GitHub Actions' if IS_GITHUB_ACTIONS else 'CI'}")
+        print("=" * 60)
     
     # 加载已处理的链接和列表页日期
     processed_links = load_processed_links()
@@ -564,121 +850,438 @@ def process_download_links():
     with open(data_file, 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f if line.strip()]
     
-    print(f"Starting to process {len(urls)} links...")
+    print(f"\nStarting to process {len(urls)} links...")
+    print(f"Configuration:")
+    print(f"  - Concurrent workers: {CONCURRENT_WORKERS}")
+    print(f"  - Request timeout: {REQUEST_TIMEOUT}s")
+    print(f"  - Max retries: {MAX_RETRIES}")
+    print(f"  - Progress report interval: every {PROGRESS_INTERVAL} links")
+    if IS_CI:
+        print(f"  - CI mode: Enabled (optimized for CI/CD)")
+    
     updated_count = 0
     skipped_count = 0
+    error_count = 0
+    last_progress_time = start_time
+    updated_software_list = []  # 记录更新的软件名称
     
-    for i, url in enumerate(urls, 1):
-        print(f"\nProcessing link {i}/{len(urls)}: {url}")
+    # 创建Session对象用于所有请求
+    session = get_session()
+    
+    # 使用线程池并发处理
+    with ThreadPoolExecutor(max_workers=CONCURRENT_WORKERS) as executor:
+        # 提交所有任务
+        future_to_url = {
+            executor.submit(process_single_link, url, processed_links, list_page_dates, session): url 
+            for url in urls
+        }
         
-        folder_name = extract_folder_name(url)
-        if not folder_name:
-            print(f"  Skip: Cannot extract folder name")
-            continue
-        
-        software_name = beautify_software_name(folder_name)
-        folder_path = os.path.join("../DownloadLinks", folder_name)
-        os.makedirs(folder_path, exist_ok=True)
-        print(f"  Created folder: {folder_path}")
-        
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.text, "html.parser")
-            
-            # 提取详情页日期
-            detail_date = extract_detail_page_date(soup)
-            if detail_date:
-                print(f"  Detail page date: {detail_date.strftime('%Y-%m-%d')}")
-            
-            # 获取列表页日期
-            list_date = None
-            if url in list_page_dates:
-                list_date = parse_date(list_page_dates[url])
-                if list_date:
-                    print(f"  List page date: {list_date.strftime('%Y-%m-%d')}")
-            
-            # 检查是否需要更新（比较日期）
-            should_update = True
-            if url in processed_links:
-                last_processed_date = processed_links[url].get('detail_date')
-                if last_processed_date:
-                    last_date = parse_date(last_processed_date)
-                    if last_date and detail_date:
-                        if detail_date <= last_date:
-                            print(f"  Skip: Detail page date ({detail_date.strftime('%Y-%m-%d')}) is not newer than last processed ({last_date.strftime('%Y-%m-%d')})")
-                            should_update = False
-                            skipped_count += 1
-            
-            # 如果详情页日期比列表页日期新，则更新
-            if list_date and detail_date and detail_date > list_date:
-                print(f"  Update: Detail page date ({detail_date.strftime('%Y-%m-%d')}) is newer than list page date ({list_date.strftime('%Y-%m-%d')})")
-                should_update = True
-            
-            if not should_update:
-                continue
-            
-            # Extract page info (image and description)
-            image_url, description = extract_page_info(soup)
-            if image_url:
-                print(f"  Found software image: {image_url}")
-            if description:
-                print(f"  Found software description: {description[:100]}...")
-            
-            download_links = find_download_links(soup)
-            print(f"  Found {len(download_links)} download links")
-            
-            if not download_links:
-                default_html = create_download_html("", "", "", software_name, image_url, description)
-                with open(os.path.join(folder_path, "DownloadPage.html"), 'w', encoding='utf-8') as f:
-                    f.write(default_html)
-                print(f"  Created default download page: DownloadPage.html")
-            else:
-                for j, download_info in enumerate(download_links, 1):
-                    version_info = download_info['version_info']
-                    install_mode = download_info['install_mode']
-                    download_url = download_info['url']
-                    if version_info and install_mode:
-                        clean_version = re.sub(r'[<>:"/\\|?*]', '_', version_info)
-                        clean_install_mode = re.sub(r'[<>:"/\\|?*]', '_', install_mode)
-                        filename = f"{clean_version}-{clean_install_mode}-DownloadPage.html"
-                    elif version_info:
-                        clean_version = re.sub(r'[<>:"/\\|?*]', '_', version_info)
-                        filename = f"{clean_version}-DownloadPage.html"
-                    elif install_mode:
-                        clean_install_mode = re.sub(r'[<>:"/\\|?*]', '_', install_mode)
-                        filename = f"{clean_install_mode}-DownloadPage.html"
+        # 处理完成的任务
+        for i, future in enumerate(as_completed(future_to_url), 1):
+            url = future_to_url[future]
+            try:
+                result = future.result()
+                
+                if result['status'] == 'success':
+                    if result['updated']:
+                        updated_count += 1
+                        if ENABLE_DETAILED_LOGS:
+                            print(f"[{i}/{len(urls)}] ✓ Updated: {url}")
+                        # 更新processed_links
+                        if 'processed_info' in result:
+                            processed_links[url] = result['processed_info']
+                            # 记录更新的软件名称
+                            software_name = result['processed_info'].get('software_name', '')
+                            if software_name and software_name not in updated_software_list:
+                                updated_software_list.append(software_name)
+                    elif result['skipped']:
+                        skipped_count += 1
+                        if ENABLE_DETAILED_LOGS:
+                            print(f"[{i}/{len(urls)}] ⊘ Skipped: {url}")
+                elif result['status'] == 'error':
+                    error_count += 1
+                    error_msg = result.get('error', 'Unknown error')
+                    # CI环境显示所有错误，本地环境只显示简要信息
+                    if IS_CI or ENABLE_DETAILED_LOGS:
+                        print(f"[{i}/{len(urls)}] ✗ Error: {url}")
+                        print(f"  Error details: {error_msg}")
                     else:
-                        filename = f"DownloadPage-{j}.html" if len(download_links) > 1 else "DownloadPage.html"
-                    html_content = create_download_html(download_url, version_info, install_mode, software_name, image_url, description)
-                    file_path = os.path.join(folder_path, filename)
-                    with open(file_path, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    print(f"  Saved download page: {filename} -> {download_url}")
-                    if version_info:
-                        print(f"    Version info: {version_info}")
-                    if install_mode:
-                        print(f"    Install mode: {install_mode}")
-            
-            # 保存处理信息
-            processed_links[url] = {
-                'detail_date': detail_date.strftime('%Y-%m-%d') if detail_date else None,
-                'processed_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                'folder_name': folder_name,
-                'software_name': software_name
-            }
-            updated_count += 1
-            
-        except Exception as e:
-            print(f"  Error: {e}")
-            continue
+                        print(f"[{i}/{len(urls)}] ✗ Error: {url} - {error_msg[:50]}...")
+                else:
+                    skipped_count += 1
+                    if ENABLE_DETAILED_LOGS:
+                        print(f"[{i}/{len(urls)}] ⊘ Skipped: {url} - {result.get('error', '')}")
+                
+                # 定期报告进度
+                if i % PROGRESS_INTERVAL == 0 or i == len(urls):
+                    elapsed = time.time() - start_time
+                    rate = i / elapsed if elapsed > 0 else 0
+                    remaining = len(urls) - i
+                    eta = remaining / rate if rate > 0 else 0
+                    progress_pct = (i / len(urls)) * 100
+                    
+                    print(f"\n📊 Progress: {i}/{len(urls)} ({progress_pct:.1f}%)")
+                    print(f"   ✓ Updated: {updated_count} | ⊘ Skipped: {skipped_count} | ✗ Errors: {error_count}")
+                    print(f"   ⏱️  Elapsed: {elapsed:.1f}s | Rate: {rate:.2f} links/s | ETA: {eta:.0f}s")
+                    if IS_CI:
+                        print(f"   💾 Memory: {get_memory_usage():.1f} MB")
+                    print()
+                    
+            except Exception as e:
+                error_count += 1
+                if IS_CI or ENABLE_DETAILED_LOGS:
+                    import traceback
+                    print(f"[{i}/{len(urls)}] ✗ Exception: {url}")
+                    print(f"  Exception details: {str(e)}")
+                    if IS_CI:
+                        traceback.print_exc()
+                else:
+                    print(f"[{i}/{len(urls)}] ✗ Exception: {url} - {str(e)[:50]}...")
     
     # 保存更新后的处理信息
     save_processed_links(processed_links)
-    print(f"\nProcessing completed!")
-    print(f"Updated: {updated_count} links")
-    print(f"Skipped: {skipped_count} links")
-    print(f"Total processed: {len(processed_links)} links")
+    
+    # 添加更新日志条目（如果有更新）
+    if updated_count > 0 or skipped_count > 0 or error_count > 0:
+        add_changelog_entry(
+            updated_count=updated_count,
+            skipped_count=skipped_count,
+            error_count=error_count,
+            total_links=len(urls),
+            updated_software=updated_software_list
+        )
+    
+    # 最终统计
+    total_time = time.time() - start_time
+    print("=" * 60)
+    print("Processing completed!")
+    print("=" * 60)
+    print(f"📈 Statistics:")
+    print(f"   Total links: {len(urls)}")
+    print(f"   ✓ Updated: {updated_count} ({updated_count/len(urls)*100:.1f}%)")
+    print(f"   ⊘ Skipped: {skipped_count} ({skipped_count/len(urls)*100:.1f}%)")
+    print(f"   ✗ Errors: {error_count} ({error_count/len(urls)*100:.1f}%)")
+    print(f"   ⏱️  Total time: {total_time:.1f}s ({total_time/60:.1f} minutes)")
+    print(f"   📊 Average rate: {len(urls)/total_time:.2f} links/s")
+    print(f"   💾 Total processed: {len(processed_links)} links")
+    if updated_software_list:
+        print(f"   📦 Updated software: {len(updated_software_list)} items")
+    
+    # CI环境额外信息
+    if IS_CI:
+        print(f"\n🔧 CI Environment Info:")
+        print(f"   Environment: {'GitHub Actions' if IS_GITHUB_ACTIONS else 'CI'}")
+        print(f"   Workers: {CONCURRENT_WORKERS}")
+        print(f"   Timeout: {REQUEST_TIMEOUT}s")
+        print(f"   Retries: {MAX_RETRIES}")
+    
+    # 如果错误率过高，在CI环境中发出警告
+    if IS_CI and error_count > 0:
+        error_rate = error_count / len(urls)
+        if error_rate > 0.1:  # 错误率超过10%
+            print(f"\n⚠️  WARNING: High error rate ({error_rate*100:.1f}%)")
+            print("   Some links may need manual review.")
+        elif error_rate > 0.05:  # 错误率超过5%
+            print(f"\n⚠️  Notice: Moderate error rate ({error_rate*100:.1f}%)")
+    
+    print("=" * 60)
+
+def get_memory_usage():
+    """获取当前内存使用量（MB）"""
+    try:
+        import psutil  # type: ignore[import-untyped]
+        process = psutil.Process(os.getpid())
+        return process.memory_info().rss / 1024 / 1024
+    except (ImportError, Exception):
+        return 0
+
+def load_changelog():
+    """加载更新日志"""
+    changelog_file = "../data/changelog.json"
+    if os.path.exists(changelog_file):
+        try:
+            with open(changelog_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+def save_changelog(changelog):
+    """保存更新日志"""
+    changelog_file = "../data/changelog.json"
+    os.makedirs("../data", exist_ok=True)
+    with open(changelog_file, 'w', encoding='utf-8') as f:
+        json.dump(changelog, f, indent=2, ensure_ascii=False)
+
+def add_changelog_entry(updated_count, skipped_count, error_count, total_links, updated_software=None):
+    """添加更新日志条目"""
+    changelog = load_changelog()
+    
+    entry = {
+        'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'updated_count': updated_count,
+        'skipped_count': skipped_count,
+        'error_count': error_count,
+        'total_links': total_links,
+        'updated_software': updated_software or []
+    }
+    
+    # 将新条目添加到开头
+    changelog.insert(0, entry)
+    
+    # 只保留最近50条记录
+    if len(changelog) > 50:
+        changelog = changelog[:50]
+    
+    save_changelog(changelog)
+    return entry
+
+def create_changelog_page():
+    """创建更新日志页面"""
+    changelog = load_changelog()
+    
+    html_content = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新日志 - Adobe GenP Downloads</title>
+    <style>
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }}
+        .container {{
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }}
+        .header {{
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }}
+        .header h1 {{
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }}
+        .header p {{
+            font-size: 1.1em;
+            opacity: 0.9;
+        }}
+        .back-link {{
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }}
+        .back-link:hover {{
+            background: white;
+            color: #667eea;
+        }}
+        .content {{
+            padding: 40px;
+        }}
+        .changelog-item {{
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }}
+        .changelog-item:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }}
+        .changelog-date {{
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }}
+        .changelog-stats {{
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }}
+        .stat-item {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }}
+        .stat-label {{
+            font-size: 0.9em;
+            color: #6c757d;
+        }}
+        .stat-value {{
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2c3e50;
+        }}
+        .stat-value.updated {{
+            color: #28a745;
+        }}
+        .stat-value.skipped {{
+            color: #ffc107;
+        }}
+        .stat-value.error {{
+            color: #dc3545;
+        }}
+        .software-list {{
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }}
+        .software-list-title {{
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }}
+        .software-tag {{
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #495057;
+            margin: 5px 5px 5px 0;
+        }}
+        .empty-state {{
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }}
+        .empty-state h2 {{
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }}
+        .footer {{
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }}
+        @media (max-width: 768px) {{
+            .header h1 {{
+                font-size: 2em;
+            }}
+            .content {{
+                padding: 20px;
+            }}
+            .changelog-stats {{
+                flex-direction: column;
+                gap: 10px;
+            }}
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 更新日志</h1>
+            <p>查看所有更新历史记录</p>
+            <a href="index.html" class="back-link">← 返回首页</a>
+        </div>
+        <div class="content">
+"""
+    
+    if not changelog:
+        html_content += """
+            <div class="empty-state">
+                <h2>暂无更新记录</h2>
+                <p>更新日志将在首次运行后生成</p>
+            </div>
+"""
+    else:
+        for entry in changelog:
+            date = entry.get('date', 'Unknown')
+            updated = entry.get('updated_count', 0)
+            skipped = entry.get('skipped_count', 0)
+            errors = entry.get('error_count', 0)
+            total = entry.get('total_links', 0)
+            software_list = entry.get('updated_software', [])
+            
+            html_content += f"""
+            <div class="changelog-item">
+                <div class="changelog-date">📅 {date}</div>
+                <div class="changelog-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">总计:</span>
+                        <span class="stat-value">{total}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">已更新:</span>
+                        <span class="stat-value updated">✓ {updated}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">已跳过:</span>
+                        <span class="stat-value skipped">⊘ {skipped}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">错误:</span>
+                        <span class="stat-value error">✗ {errors}</span>
+                    </div>
+                </div>
+"""
+            if software_list:
+                html_content += """
+                <div class="software-list">
+                    <div class="software-list-title">更新的软件:</div>
+"""
+                for software in software_list[:20]:  # 最多显示20个
+                    html_content += f'                    <span class="software-tag">{software}</span>\n'
+                if len(software_list) > 20:
+                    html_content += f'                    <span class="software-tag">... 还有 {len(software_list) - 20} 个</span>\n'
+                html_content += "                </div>\n"
+            
+            html_content += "            </div>\n"
+    
+    html_content += """
+        </div>
+        <div class="footer">
+            <p>© 2025 Adobe GenP Downloads | All software is from the network, for learning only</p>
+        </div>
+    </div>
+</body>
+</html>"""
+    
+    with open("../CHANGELOG.html", "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print(f"Generated changelog page: ../CHANGELOG.html")
+
+def parse_version(version_str):
+    """解析版本号字符串为可比较的元组"""
+    if not version_str:
+        return (0,)
+    try:
+        # 提取版本号部分（去掉非数字字符）
+        version_match = re.search(r'(\d+(?:\.\d+)*)', version_str)
+        if version_match:
+            parts = version_match.group(1).split('.')
+            return tuple(int(p) for p in parts)
+    except:
+        pass
+    return (0,)
 
 def create_main_download_page():
     """Create main download page"""
@@ -727,6 +1330,8 @@ def create_main_download_page():
                     except Exception as e:
                         print(f"Error processing file {html_file}: {e}")
                 if download_files:
+                    # 按版本号降序排序（最新版本在前）
+                    download_files.sort(key=lambda x: parse_version(x.get('version_info', '')), reverse=True)
                     display_name = folder_name.replace('-', ' ').replace('_', ' ').title()
                     download_items.append({
                         'name': display_name,
@@ -1050,6 +1655,11 @@ def create_main_download_page():
         </div>
         <div class="footer">
             <p>© 2025 Adobe GenP Downloads | All software is from the network, for learning only</p>
+            <p style="margin-top: 15px;">
+                <a href="CHANGELOG.html" style="color: #667eea; text-decoration: none; font-weight: 600; padding: 8px 15px; border: 2px solid #667eea; border-radius: 20px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#667eea';">
+                    📋 查看更新日志
+                </a>
+            </p>
         </div>
     </div>
 </body>
@@ -1061,6 +1671,18 @@ def create_main_download_page():
     print("Please open index.html in your browser to view the results")
 
 def main():
+    """主函数：采集链接并处理下载页面（针对CI环境优化）"""
+    program_start_time = time.time()
+    
+    # 环境信息
+    if IS_CI:
+        print("=" * 60)
+        print("🚀 Adobe GenP Download Collector")
+        print(f"Environment: {'GitHub Actions' if IS_GITHUB_ACTIONS else 'CI/CD'}")
+        print(f"Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print("=" * 60)
+        print()
+    
     os.makedirs("../data", exist_ok=True)
     all_links = set()
     all_link_dates = {}  # 存储所有链接的日期信息
@@ -1069,11 +1691,23 @@ def main():
     all_links.update(force_include_links)
     print(f"Added {len(force_include_links)} forced include links")
     
+    # 使用Session复用连接
+    session = get_session()
+    
+    # 采集阶段
+    collection_start_time = time.time()
+    print("\n" + "=" * 60)
+    print("Phase 1: Collecting links from website")
+    print("=" * 60)
+    
+    consecutive_empty_pages = 0  # 连续空页计数
+    max_consecutive_empty = 2  # 最多允许连续2页为空后停止
+    
     while page <= max_pages:
         url = get_next_page_url(page)
         print(f"Fetching page {page}: {url}")
         try:
-            links, soup, link_dates = get_links_from_page(url)
+            links, soup, link_dates = get_links_from_page(url, session=session)
             print(f"Page {page} found {len(links)} valid links")
             
             # 合并链接和日期信息
@@ -1083,9 +1717,30 @@ def main():
             if page == 1 and not links:
                 print("Warning: No valid links found on the first page, please check the website structure")
                 break
-            if page > 1 and not links:
-                print(f"Page {page} has no links, reached the last page")
-                break
+            
+            # 处理空页情况
+            if not links:
+                consecutive_empty_pages += 1
+                print(f"Page {page} has no links (consecutive empty: {consecutive_empty_pages}/{max_consecutive_empty})")
+                
+                # 如果连续多页为空，停止抓取
+                if consecutive_empty_pages >= max_consecutive_empty:
+                    print(f"Stopped: {consecutive_empty_pages} consecutive empty pages")
+                    break
+                
+                # 即使为空也检查是否有下一页
+                if not has_next_page(soup, page):
+                    print(f"Page {page} has no links and no next page, reached the last page")
+                    break
+                else:
+                    print(f"Page {page} has no links but next page exists, continuing...")
+                    page += 1
+                    continue
+            else:
+                # 有链接，重置连续空页计数
+                consecutive_empty_pages = 0
+            
+            # 检查是否有下一页
             if not has_next_page(soup, page):
                 print(f"Page {page} has no next page links, stopped fetching")
                 break
@@ -1102,6 +1757,10 @@ def main():
         page += 1
     
     # 保存链接和日期信息
+    collection_time = time.time() - collection_start_time
+    print(f"\nCollection completed in {collection_time:.1f}s")
+    print(f"Total collected {len(all_links)} unique links")
+    
     with open("../data/data.txt", "w", encoding="utf-8") as f:
         for link in sorted(all_links):
             f.write(link + "\n")
@@ -1115,12 +1774,42 @@ def main():
                 dates_dict[link] = date.strftime('%Y-%m-%d')
         json.dump(dates_dict, f, indent=2)
     
-    print(f"Total saved {len(all_links)} links to ../data/data.txt")
-    print(f"Saved {len(all_link_dates)} link dates to ../data/link_dates.json")
-    print("\nStarting to process download links...")
+    print(f"✓ Saved {len(all_links)} links to ../data/data.txt")
+    print(f"✓ Saved {len(all_link_dates)} link dates to ../data/link_dates.json")
+    
+    # 处理阶段
+    print("\n" + "=" * 60)
+    print("Phase 2: Processing download links")
+    print("=" * 60)
     process_download_links()
-    print("\nStarting to generate download center page...")
+    
+    # 生成页面阶段
+    print("\n" + "=" * 60)
+    print("Phase 3: Generating download center page")
+    print("=" * 60)
     create_main_download_page()
+    create_changelog_page()
+    
+    # 最终统计
+    total_time = time.time() - program_start_time
+    print("\n" + "=" * 60)
+    print("✅ All tasks completed successfully!")
+    print("=" * 60)
+    print(f"⏱️  Total execution time: {total_time:.1f}s ({total_time/60:.1f} minutes)")
+    print(f"   - Collection: {collection_time:.1f}s")
+    print(f"   - Processing: {total_time - collection_time:.1f}s")
+    
+    if IS_CI:
+        print(f"\n🔧 CI Environment Summary:")
+        print(f"   Environment: {'GitHub Actions' if IS_GITHUB_ACTIONS else 'CI/CD'}")
+        print(f"   Configuration: {CONCURRENT_WORKERS} workers, {REQUEST_TIMEOUT}s timeout")
+        print(f"   Total links processed: {len(all_links)}")
+        print("=" * 60)
+    
+    # 在CI环境中，如果执行时间过长，发出警告
+    if IS_CI and total_time > 3600:  # 超过1小时
+        print(f"\n⚠️  WARNING: Execution time exceeded 1 hour ({total_time/60:.1f} minutes)")
+        print("   Consider optimizing the workflow or reducing the number of links.")
 
 if __name__ == "__main__":
     main()
