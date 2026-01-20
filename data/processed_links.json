@@ -1,26 +1,668 @@
 {
   "https://www.cybermania.ws/apps/adobe-genp/": {
     "detail_date": "2025-12-19",
-    "processed_at": "2026-01-01 03:30:07",
+    "processed_at": "2026-01-20 17:02:45",
     "folder_name": "adobe-genp",
     "software_name": "Adobe Genp"
   },
   "https://www.cybermania.ws/apps/ags-disabler-disable-adobe-genuine-software/": {
     "detail_date": "2021-04-13",
-    "processed_at": "2026-01-01 03:30:07",
+    "processed_at": "2026-01-20 17:02:45",
     "folder_name": "ags-disabler-disable-adobe-genuine-software",
     "software_name": "Ags Disabler Disable Adobe Genuine Software"
   },
   "https://www.cybermania.ws/apps/genp-universal-patch/": {
     "detail_date": "2025-12-19",
-    "processed_at": "2026-01-01 03:30:08",
+    "processed_at": "2026-01-20 17:02:45",
     "folder_name": "genp-universal-patch",
     "software_name": "Genp Universal Patch"
   },
   "https://www.cybermania.ws/cybermania/disable-adobe-genuine-software-integrity-service/": {
     "detail_date": "2024-11-21",
-    "processed_at": "2026-01-01 03:30:08",
+    "processed_at": "2026-01-20 17:02:52",
     "folder_name": "disable-adobe-genuine-software-integrity-service",
     "software_name": "Disable Adobe Genuine Software Integrity Service"
+  },
+  "https://www.cybermania.ws/appz/12-photoshop-actions-the-dark-earth-ps/": {
+    "detail_date": "2023-01-28",
+    "processed_at": "2026-01-20 17:02:45",
+    "folder_name": "12-photoshop-actions-the-dark-earth-ps",
+    "software_name": "12 Photoshop Actions The Dark Earth Ps"
+  },
+  "https://www.cybermania.ws/appz/acrobat-classic-24/": {
+    "detail_date": "2025-09-10",
+    "processed_at": "2026-01-20 17:02:45",
+    "folder_name": "acrobat-classic-24",
+    "software_name": "Acrobat Classic 24"
+  },
+  "https://www.cybermania.ws/appz/acrobat-pro-2020/": {
+    "detail_date": "2020-12-09",
+    "processed_at": "2026-01-20 17:02:45",
+    "folder_name": "acrobat-pro-2020",
+    "software_name": "Acrobat Pro 2020"
+  },
+  "https://www.cybermania.ws/appz/acrobat-pro-dc/": {
+    "detail_date": "2026-01-20",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "acrobat-pro-dc",
+    "software_name": "Acrobat Pro Dc"
+  },
+  "https://www.cybermania.ws/appz/acrobat-reader-dc/": {
+    "detail_date": "2026-01-20",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "acrobat-reader-dc",
+    "software_name": "Acrobat Reader Dc"
+  },
+  "https://www.cybermania.ws/appz/after-effects-2020/": {
+    "detail_date": "2021-02-09",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "after-effects-2020",
+    "software_name": "After Effects 2020"
+  },
+  "https://www.cybermania.ws/appz/after-effects-2021/": {
+    "detail_date": "2021-09-18",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "after-effects-2021",
+    "software_name": "After Effects 2021"
+  },
+  "https://www.cybermania.ws/appz/after-effects-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "after-effects-2022",
+    "software_name": "After Effects 2022"
+  },
+  "https://www.cybermania.ws/appz/after-effects-2023/": {
+    "detail_date": "2023-06-23",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "after-effects-2023",
+    "software_name": "After Effects 2023"
+  },
+  "https://www.cybermania.ws/appz/after-effects-2024/": {
+    "detail_date": "2024-09-09",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "after-effects-2024",
+    "software_name": "After Effects 2024"
+  },
+  "https://www.cybermania.ws/appz/after-effects-2025/": {
+    "detail_date": "2026-01-16",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "after-effects-2025",
+    "software_name": "After Effects 2025"
+  },
+  "https://www.cybermania.ws/appz/altium-designer/": {
+    "detail_date": "2025-06-15",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "altium-designer",
+    "software_name": "Altium Designer"
+  },
+  "https://www.cybermania.ws/appz/animate-2020/": {
+    "detail_date": "2021-02-09",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "animate-2020",
+    "software_name": "Animate 2020"
+  },
+  "https://www.cybermania.ws/appz/animate-2021/": {
+    "detail_date": "2021-09-16",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "animate-2021",
+    "software_name": "Animate 2021"
+  },
+  "https://www.cybermania.ws/appz/animate-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "animate-2022",
+    "software_name": "Animate 2022"
+  },
+  "https://www.cybermania.ws/appz/animate-2023/": {
+    "detail_date": "2023-05-13",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "animate-2023",
+    "software_name": "Animate 2023"
+  },
+  "https://www.cybermania.ws/appz/animate-2024/": {
+    "detail_date": "2025-10-15",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "animate-2024",
+    "software_name": "Animate 2024"
+  },
+  "https://www.cybermania.ws/appz/audition-2020/": {
+    "detail_date": "2021-01-13",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "audition-2020",
+    "software_name": "Audition 2020"
+  },
+  "https://www.cybermania.ws/appz/audition-2021/": {
+    "detail_date": "2021-09-08",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "audition-2021",
+    "software_name": "Audition 2021"
+  },
+  "https://www.cybermania.ws/appz/audition-2022/": {
+    "detail_date": "2022-10-02",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "audition-2022",
+    "software_name": "Audition 2022"
+  },
+  "https://www.cybermania.ws/appz/audition-2023/": {
+    "detail_date": "2023-08-26",
+    "processed_at": "2026-01-20 17:02:46",
+    "folder_name": "audition-2023",
+    "software_name": "Audition 2023"
+  },
+  "https://www.cybermania.ws/appz/audition-2024/": {
+    "detail_date": "2024-09-09",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "audition-2024",
+    "software_name": "Audition 2024"
+  },
+  "https://www.cybermania.ws/appz/audition-2025/": {
+    "detail_date": "2026-01-16",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "audition-2025",
+    "software_name": "Audition 2025"
+  },
+  "https://www.cybermania.ws/appz/bridge-2021/": {
+    "detail_date": "2021-09-16",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "bridge-2021",
+    "software_name": "Bridge 2021"
+  },
+  "https://www.cybermania.ws/appz/bridge-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "bridge-2022",
+    "software_name": "Bridge 2022"
+  },
+  "https://www.cybermania.ws/appz/bridge-2023/": {
+    "detail_date": "2023-08-17",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "bridge-2023",
+    "software_name": "Bridge 2023"
+  },
+  "https://www.cybermania.ws/appz/bridge-2024/": {
+    "detail_date": "2024-08-14",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "bridge-2024",
+    "software_name": "Bridge 2024"
+  },
+  "https://www.cybermania.ws/appz/bridge-2025/": {
+    "detail_date": "2025-09-19",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "bridge-2025",
+    "software_name": "Bridge 2025"
+  },
+  "https://www.cybermania.ws/appz/bridge-2026/": {
+    "detail_date": "2025-12-12",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "bridge-2026",
+    "software_name": "Bridge 2026"
+  },
+  "https://www.cybermania.ws/appz/character-animator-2020/": {
+    "detail_date": "2021-02-09",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "character-animator-2020",
+    "software_name": "Character Animator 2020"
+  },
+  "https://www.cybermania.ws/appz/character-animator-2021/": {
+    "detail_date": "2021-09-16",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "character-animator-2021",
+    "software_name": "Character Animator 2021"
+  },
+  "https://www.cybermania.ws/appz/character-animator-2022/": {
+    "detail_date": "2022-05-14",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "character-animator-2022",
+    "software_name": "Character Animator 2022"
+  },
+  "https://www.cybermania.ws/appz/character-animator-2023/": {
+    "detail_date": "2022-12-13",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "character-animator-2023",
+    "software_name": "Character Animator 2023"
+  },
+  "https://www.cybermania.ws/appz/character-animator-2024/": {
+    "detail_date": "2024-09-09",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "character-animator-2024",
+    "software_name": "Character Animator 2024"
+  },
+  "https://www.cybermania.ws/appz/character-animator-2025/": {
+    "detail_date": "2025-11-15",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "character-animator-2025",
+    "software_name": "Character Animator 2025"
+  },
+  "https://www.cybermania.ws/appz/dehancer-film-2-0-0-for-photoshop-lightroom/": {
+    "detail_date": "2024-05-26",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "dehancer-film-2-0-0-for-photoshop-lightroom",
+    "software_name": "Dehancer Film 2 0 0 For Photoshop Lightroom"
+  },
+  "https://www.cybermania.ws/appz/dehancer-pro-for-premiere-pro-after-effects/": {
+    "detail_date": "2024-03-30",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "dehancer-pro-for-premiere-pro-after-effects",
+    "software_name": "Dehancer Pro For Premiere Pro After Effects"
+  },
+  "https://www.cybermania.ws/appz/dimension/": {
+    "detail_date": "2021-11-27",
+    "processed_at": "2026-01-20 17:02:47",
+    "folder_name": "dimension",
+    "software_name": "Dimension"
+  },
+  "https://www.cybermania.ws/appz/dreamweaver-2020/": {
+    "detail_date": "2021-02-19",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "dreamweaver-2020",
+    "software_name": "Dreamweaver 2020"
+  },
+  "https://www.cybermania.ws/appz/dreamweaver-2021/": {
+    "detail_date": "2022-07-16",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "dreamweaver-2021",
+    "software_name": "Dreamweaver 2021"
+  },
+  "https://www.cybermania.ws/appz/filmconvert-nitrate-3-0-2-for-after-effects-premiere-pro/": {
+    "detail_date": "2022-09-10",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "filmconvert-nitrate-3-0-2-for-after-effects-premiere-pro",
+    "software_name": "Filmconvert Nitrate 3 0 2 For After Effects Premiere Pro"
+  },
+  "https://www.cybermania.ws/appz/fresco/": {
+    "detail_date": "2021-06-09",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "fresco",
+    "software_name": "Fresco"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2020/": {
+    "detail_date": "2020-08-22",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2020",
+    "software_name": "Illustrator 2020"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2021/": {
+    "detail_date": "2021-10-29",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2021",
+    "software_name": "Illustrator 2021"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2022",
+    "software_name": "Illustrator 2022"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2023/": {
+    "detail_date": "2023-09-22",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2023",
+    "software_name": "Illustrator 2023"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2024/": {
+    "detail_date": "2024-09-09",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2024",
+    "software_name": "Illustrator 2024"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2025/": {
+    "detail_date": "2025-10-15",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2025",
+    "software_name": "Illustrator 2025"
+  },
+  "https://www.cybermania.ws/appz/illustrator-2026/": {
+    "detail_date": "2025-12-15",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-2026",
+    "software_name": "Illustrator 2026"
+  },
+  "https://www.cybermania.ws/appz/illustrator-cc-2019-23-1-0-670/": {
+    "detail_date": "2019-10-03",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "illustrator-cc-2019-23-1-0-670",
+    "software_name": "Illustrator Cc 2019 23 1 0 670"
+  },
+  "https://www.cybermania.ws/appz/incopy-2020/": {
+    "detail_date": "2021-05-03",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "incopy-2020",
+    "software_name": "Incopy 2020"
+  },
+  "https://www.cybermania.ws/appz/incopy-2021/": {
+    "detail_date": "2021-09-16",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "incopy-2021",
+    "software_name": "Incopy 2021"
+  },
+  "https://www.cybermania.ws/appz/incopy-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "incopy-2022",
+    "software_name": "Incopy 2022"
+  },
+  "https://www.cybermania.ws/appz/incopy-2023/": {
+    "detail_date": "2023-08-06",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "incopy-2023",
+    "software_name": "Incopy 2023"
+  },
+  "https://www.cybermania.ws/appz/incopy-2024/": {
+    "detail_date": "2024-07-23",
+    "processed_at": "2026-01-20 17:02:48",
+    "folder_name": "incopy-2024",
+    "software_name": "Incopy 2024"
+  },
+  "https://www.cybermania.ws/appz/incopy-2025/": {
+    "detail_date": "2025-08-01",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "incopy-2025",
+    "software_name": "Incopy 2025"
+  },
+  "https://www.cybermania.ws/appz/incopy-2026/": {
+    "detail_date": "2025-12-24",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "incopy-2026",
+    "software_name": "Incopy 2026"
+  },
+  "https://www.cybermania.ws/appz/indesign-2020/": {
+    "detail_date": "2021-02-03",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2020",
+    "software_name": "Indesign 2020"
+  },
+  "https://www.cybermania.ws/appz/indesign-2021/": {
+    "detail_date": "2021-09-16",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2021",
+    "software_name": "Indesign 2021"
+  },
+  "https://www.cybermania.ws/appz/indesign-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2022",
+    "software_name": "Indesign 2022"
+  },
+  "https://www.cybermania.ws/appz/indesign-2023/": {
+    "detail_date": "2023-08-06",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2023",
+    "software_name": "Indesign 2023"
+  },
+  "https://www.cybermania.ws/appz/indesign-2024/": {
+    "detail_date": "2024-07-23",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2024",
+    "software_name": "Indesign 2024"
+  },
+  "https://www.cybermania.ws/appz/indesign-2025/": {
+    "detail_date": "2025-08-01",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2025",
+    "software_name": "Indesign 2025"
+  },
+  "https://www.cybermania.ws/appz/indesign-2026/": {
+    "detail_date": "2025-12-24",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "indesign-2026",
+    "software_name": "Indesign 2026"
+  },
+  "https://www.cybermania.ws/appz/media-encoder-2020/": {
+    "detail_date": "2021-02-09",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "media-encoder-2020",
+    "software_name": "Media Encoder 2020"
+  },
+  "https://www.cybermania.ws/appz/media-encoder-2021/": {
+    "detail_date": "2021-09-18",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "media-encoder-2021",
+    "software_name": "Media Encoder 2021"
+  },
+  "https://www.cybermania.ws/appz/media-encoder-2022/": {
+    "detail_date": "2022-09-23",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "media-encoder-2022",
+    "software_name": "Media Encoder 2022"
+  },
+  "https://www.cybermania.ws/appz/media-encoder-2023/": {
+    "detail_date": "2023-08-14",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "media-encoder-2023",
+    "software_name": "Media Encoder 2023"
+  },
+  "https://www.cybermania.ws/appz/media-encoder-2024/": {
+    "detail_date": "2024-09-09",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "media-encoder-2024",
+    "software_name": "Media Encoder 2024"
+  },
+  "https://www.cybermania.ws/appz/media-encoder-2025/": {
+    "detail_date": "2026-01-16",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "media-encoder-2025",
+    "software_name": "Media Encoder 2025"
+  },
+  "https://www.cybermania.ws/appz/mobglow-photoshop-plugin/": {
+    "detail_date": "2025-04-17",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "mobglow-photoshop-plugin",
+    "software_name": "Mobglow Photoshop Plugin"
+  },
+  "https://www.cybermania.ws/appz/photoshop-2020-21-2-24-323-win-7/": {
+    "detail_date": "2021-04-13",
+    "processed_at": "2026-01-20 17:02:49",
+    "folder_name": "photoshop-2020-21-2-24-323-win-7",
+    "software_name": "Photoshop 2020 21 2 24 323 Win 7"
+  },
+  "https://www.cybermania.ws/appz/photoshop-2020/": {
+    "detail_date": "2021-09-27",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-2020",
+    "software_name": "Photoshop 2020"
+  },
+  "https://www.cybermania.ws/appz/photoshop-2021/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-2021",
+    "software_name": "Photoshop 2021"
+  },
+  "https://www.cybermania.ws/appz/photoshop-2024/": {
+    "detail_date": "2024-09-11",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-2024",
+    "software_name": "Photoshop 2024"
+  },
+  "https://www.cybermania.ws/appz/photoshop-2025/": {
+    "detail_date": "2025-09-26",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-2025",
+    "software_name": "Photoshop 2025"
+  },
+  "https://www.cybermania.ws/appz/photoshop-2026/": {
+    "detail_date": "2025-12-21",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-2026",
+    "software_name": "Photoshop 2026"
+  },
+  "https://www.cybermania.ws/appz/photoshop-cc-2015-lite/": {
+    "detail_date": "2015-08-22",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-cc-2015-lite",
+    "software_name": "Photoshop Cc 2015 Lite"
+  },
+  "https://www.cybermania.ws/appz/photoshop-cc-2018/": {
+    "detail_date": "2020-10-17",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-cc-2018",
+    "software_name": "Photoshop Cc 2018"
+  },
+  "https://www.cybermania.ws/appz/photoshop-cc-2019/": {
+    "detail_date": "2020-10-17",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-cc-2019",
+    "software_name": "Photoshop Cc 2019"
+  },
+  "https://www.cybermania.ws/appz/photoshop-cs4-lite/": {
+    "detail_date": "2010-04-02",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-cs4-lite",
+    "software_name": "Photoshop Cs4 Lite"
+  },
+  "https://www.cybermania.ws/appz/photoshop-elements-2022/": {
+    "detail_date": "2021-09-19",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-elements-2022",
+    "software_name": "Photoshop Elements 2022"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-2024/": {
+    "detail_date": "2024-02-21",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-2024",
+    "software_name": "Photoshop Lightroom 2024"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-2025/": {
+    "detail_date": "2024-10-12",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-2025",
+    "software_name": "Photoshop Lightroom 2025"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-6-0/": {
+    "detail_date": "2022-10-19",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-6-0",
+    "software_name": "Photoshop Lightroom 6 0"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2020/": {
+    "detail_date": "2021-01-20",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-classic-2020",
+    "software_name": "Photoshop Lightroom Classic 2020"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2021-10-4-0-10/": {
+    "detail_date": "2021-09-27",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-classic-2021-10-4-0-10",
+    "software_name": "Photoshop Lightroom Classic 2021 10 4 0 10"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2021/": {
+    "detail_date": "2021-02-16",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-classic-2021",
+    "software_name": "Photoshop Lightroom Classic 2021"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2022/": {
+    "detail_date": "2022-09-07",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-classic-2022",
+    "software_name": "Photoshop Lightroom Classic 2022"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2023/": {
+    "detail_date": "2023-08-20",
+    "processed_at": "2026-01-20 17:02:50",
+    "folder_name": "photoshop-lightroom-classic-2023",
+    "software_name": "Photoshop Lightroom Classic 2023"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2024/": {
+    "detail_date": "2024-09-04",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "photoshop-lightroom-classic-2024",
+    "software_name": "Photoshop Lightroom Classic 2024"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2025/": {
+    "detail_date": "2025-08-31",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "photoshop-lightroom-classic-2025",
+    "software_name": "Photoshop Lightroom Classic 2025"
+  },
+  "https://www.cybermania.ws/appz/photoshop-lightroom-classic-2026/": {
+    "detail_date": "2025-12-21",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "photoshop-lightroom-classic-2026",
+    "software_name": "Photoshop Lightroom Classic 2026"
+  },
+  "https://www.cybermania.ws/appz/premiere-elements-2021/": {
+    "detail_date": "2021-09-19",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-elements-2021",
+    "software_name": "Premiere Elements 2021"
+  },
+  "https://www.cybermania.ws/appz/premiere-pro-2020/": {
+    "detail_date": "2021-02-09",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-pro-2020",
+    "software_name": "Premiere Pro 2020"
+  },
+  "https://www.cybermania.ws/appz/premiere-pro-2021/": {
+    "detail_date": "2021-09-27",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-pro-2021",
+    "software_name": "Premiere Pro 2021"
+  },
+  "https://www.cybermania.ws/appz/premiere-pro-2022/": {
+    "detail_date": "2022-09-15",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-pro-2022",
+    "software_name": "Premiere Pro 2022"
+  },
+  "https://www.cybermania.ws/appz/premiere-pro-2023/": {
+    "detail_date": "2023-08-14",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-pro-2023",
+    "software_name": "Premiere Pro 2023"
+  },
+  "https://www.cybermania.ws/appz/premiere-pro-2024/": {
+    "detail_date": "2024-09-09",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-pro-2024",
+    "software_name": "Premiere Pro 2024"
+  },
+  "https://www.cybermania.ws/appz/premiere-pro-2025/": {
+    "detail_date": "2026-01-16",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiere-pro-2025",
+    "software_name": "Premiere Pro 2025"
+  },
+  "https://www.cybermania.ws/appz/premiererush/": {
+    "detail_date": "2021-04-13",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "premiererush",
+    "software_name": "Premiererush"
+  },
+  "https://www.cybermania.ws/appz/retouch-pro-for-adobe-photoshop/": {
+    "detail_date": "2022-12-13",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "retouch-pro-for-adobe-photoshop",
+    "software_name": "Retouch Pro For Adobe Photoshop"
+  },
+  "https://www.cybermania.ws/appz/substance-3d-designer/": {
+    "detail_date": "2022-09-08",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "substance-3d-designer",
+    "software_name": "Substance 3D Designer"
+  },
+  "https://www.cybermania.ws/appz/substance-3d-painter/": {
+    "detail_date": "2022-09-08",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "substance-3d-painter",
+    "software_name": "Substance 3D Painter"
+  },
+  "https://www.cybermania.ws/appz/substance-3d-sampler/": {
+    "detail_date": "2022-09-12",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "substance-3d-sampler",
+    "software_name": "Substance 3D Sampler"
+  },
+  "https://www.cybermania.ws/appz/substance-3d-stager/": {
+    "detail_date": "2022-09-08",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "substance-3d-stager",
+    "software_name": "Substance 3D Stager"
+  },
+  "https://www.cybermania.ws/appz/xd/": {
+    "detail_date": "2025-07-16",
+    "processed_at": "2026-01-20 17:02:51",
+    "folder_name": "xd",
+    "software_name": "Xd"
   }
 }
